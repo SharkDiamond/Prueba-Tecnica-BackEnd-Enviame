@@ -1,1 +1,1 @@
-const {}=require('sequelize');
+const {Sequelize}=require('sequelize');
