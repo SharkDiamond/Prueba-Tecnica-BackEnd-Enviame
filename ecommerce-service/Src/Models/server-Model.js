@@ -1,6 +1,7 @@
 //IMPORTACIONES
 const express=require('express');
 const cors=require('cors');
+const db = require('../Database/ConectarDB');
 
 class Server{
 
@@ -13,9 +14,13 @@ class Server{
         //SENDEROS
         this.path={
 
-         'Administrator':'/AdministradorMercado'
+         'Administrator':'/AdministradorMercado',
+         'Token':'/Token'
 
         };
+
+        this.ConectarDb();
+
         //CARGANDO LAS RUTAS
         this.Routes();
         //PUERTO
@@ -23,10 +28,28 @@ class Server{
 
     }
 
+   async ConectarDb(){
+
+    try {
+        //AUTENTICANDO CONTRA LA BASE DE DATOS
+        await db.authenticate();
+        //SI TODO SALE BIEN
+        console.log('database Online');
+       
+      } catch (error) {
+          //EN DADO CASO OCURRA UN ERROR
+          throw new Error(" "+error);
+            
+      }
+
+    }
 
     Routes(){
 
-        this.app.use(this.path.Administrator,require('../Routes/administradorMercado'));
+        //RUTA PARA LOS ADMINISTRADORES DEL MERCADO
+        this.app.use(this.path.Administrator,require('../Routes/administradorMercado-Route'));
+        //RUTA PARA EL TOKEN
+        this.app.use(this.path.Token,require('../Routes/Token-Route'));
 
     }
 
@@ -39,7 +62,6 @@ class Server{
 
     }
 
-
     Listen(){
 
         this.app.listen(this.port,()=>{
@@ -51,8 +73,7 @@ class Server{
 
     }
 
-
-
 }
 
+//EXPORTANDO LA CLASE
 module.exports=Server;

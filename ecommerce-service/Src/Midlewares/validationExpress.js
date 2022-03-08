@@ -5,6 +5,8 @@ const {validationResult}=require('express-validator');
 const validationExpress=(req,res,next)=>{
 
     const errors= validationResult(req);
+
+    console.log(errors);
     //SI HAY ERRORES
     if (!errors.isEmpty()) return res.json(errors).status(400).end();
     //SI NO LOS HAY CONTINUA

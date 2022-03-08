@@ -1,7 +1,7 @@
 const token=require('jsonwebtoken');
 
 //FUNCION PARA CREAR EL TOKEN
-const createToken=(data)=>{
+const createToken=(data="test")=>{
     //RETORNANDO UNA PROMESA
     return new Promise((resolve,reject)=>{
 
@@ -15,7 +15,9 @@ const createToken=(data)=>{
             });
 
         } catch (error) {
+            
             reject(error);
+        
         }
 
     });
