@@ -1,5 +1,6 @@
+//IMPORTACIONES
 const { valideCamposInController } = require("../Helpers/validation-Custom-Helper");
-const Vendedor = require("../Models/vendedor-Model");
+const { Vendedor } = require("../Models");
 
 //PARA CREAR VENDEDORES
 const createVendedores=async(req,res)=>{

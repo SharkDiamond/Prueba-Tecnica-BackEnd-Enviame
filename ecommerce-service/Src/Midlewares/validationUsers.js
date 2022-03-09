@@ -1,9 +1,11 @@
 //IMPORTACIONES
-const Vendedor = require("../Models/vendedor-Model")
+const {Vendedor} = require("../Models");
 
 //FUNCION PARA VERIFICAR SI EXISTE UN USUARIO POR ID
 const existVendedorForId=async(req,res,next)=>{
 
+    try {
+        
     //DESESTRUCTURANDO EL ID DEL PARAMS
     let {id}=req.params;
     //VALIDANDO QUE EFECTIVAMENTE EL PARAMETRO SEA UN VALOR NUMERICO
@@ -18,6 +20,11 @@ const existVendedorForId=async(req,res,next)=>{
     req.vendedor=findVendedor.dataValues;
     //SIGUIENDO YA QUE TODO SALIO BIEN
     next();
+    } catch (error) {
+        console.log(error.message);
+    }
+
+
 
 }
 //FUNCION PARA VALIDAR QUE LOS CAMPOS QUE SE ESTEN ENVIANDO SON LOS PERMITIDOS

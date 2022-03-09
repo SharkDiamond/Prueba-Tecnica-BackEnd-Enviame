@@ -2,6 +2,7 @@
 const {Router}=require('express');
 const {check}=require('express-validator');
 const { createProducto, getProducto, listProductos,deleteProducto, updateProducto} = require('../Controllers/Vendedor-Controller');
+const { ProductExist } = require('../Midlewares/Productos');
 const { validationExpress } = require('../Midlewares/validationExpress');
 const validarToken = require('../Midlewares/validationJWT');
 const { existVendedorForId, validateUserType, validarCamposPermitidos } = require('../Midlewares/validationUsers');
@@ -9,11 +10,11 @@ const { existVendedorForId, validateUserType, validarCamposPermitidos } = requir
 //CREANDO EL ROUTE
 const route=Router();
 //CREAR UN PRODUCTO
-route.post('/crearProducto',[validarToken,validarCamposPermitidos('Nombre','Descripcion','Cantidad','userType'),validateUserType('Vendedor'),
-                             check('Nombre','El nombre del producto no puede estar vacio').not().isEmpty(),
-                             check('Descripcion','La descripcion del producto debe tener minimo 12 letras y maximo 60 letras').isLength({min:12,max:60}),
-                             check('Cantidad','La cantidad debe de ser un valor numerico').isNumeric(),
-                             check('id').custom(existVendedorForId),validationExpress],createProducto);
+route.post('/crearProducto/:id',[validarToken,validarCamposPermitidos('Nombre','Descripcion','Cantidad','userType'),
+                                 validateUserType('Vendedor'),existVendedorForId,ProductExist,
+                                 check('Nombre','El nombre del producto no puede estar vacio').not().isEmpty(),
+                                 check('Descripcion','La descripcion del producto debe tener minimo 12 letras y maximo 60 letras').isLength({min:12,max:60}),
+                                 check('Cantidad','La cantidad debe de ser un valor numerico').isNumeric(),validationExpress],createProducto);
 
 /*
 //OBTENER UN PRODUCTO POR ID

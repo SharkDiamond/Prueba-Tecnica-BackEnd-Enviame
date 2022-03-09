@@ -1,5 +1,5 @@
 //IMPORTACIONES
-const Vendedor = require("../Models/vendedor-Model");
+const { Vendedor } = require("../Models");
 
 //FUNCION QUE VALIDA SI EL USUARIO EXISTE
 const existUsername=async(Username)=>{
