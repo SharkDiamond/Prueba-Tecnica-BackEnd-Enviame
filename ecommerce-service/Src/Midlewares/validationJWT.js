@@ -18,9 +18,11 @@ const validarToken=(req,res,next)=>{
     } catch (error) {
 
         //EN DADO CASO EL TOKEN NO VENGA EN LOS ABSOLUTO
+        if (error.message==`Cannot read properties of undefined (reading 'length')`) return res.status(401).json('No viene token en la peticion').end();
+        //EN DADO CASO EL TOKEN NO VENGA EN LOS ABSOLUTO
         if (error.message==`Cannot read property 'length' of undefined`) return res.status(401).json('No viene token en la peticion').end();
         //EN DADO CASO EL TOKEN SEA INVALIDO
-        res.status(401).json('Token Invanlido').end();
+        res.status(401).json('Token Invalido').end();
 
     }
 

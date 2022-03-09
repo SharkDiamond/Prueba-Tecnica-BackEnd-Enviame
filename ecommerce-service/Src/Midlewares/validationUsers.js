@@ -19,5 +19,27 @@ const existVendedorForId=async(req,res,next)=>{
     next();
 
 }
+//FUNCION PARA VALIDAR QUE LOS CAMPOS QUE SE ESTEN ENVIANDO SON LOS PERMITIDOS
+const validarCamposPermitidos=(req,res,next)=>{
+    
+    //SACANDO UN ARREGLO DE LAS LLAVES DEL OBJETO BODY
+    const camposActualizar=  Object.keys(req.body);
+    //ARREGLO QUE INDICA LOS CAMPOS PERMITIDOS
+    const CamposPermitidos=['Nombre','Username','Descripcion'];
+    //ARREGLO PARA ALMACENAR LOS CAMPOS QUE NO SON PERMITIDOS
+    let camposNoPermitodos=[];
+    //RECORRIENDO LOS ELEMENTOS DE LOS CAMPOS A ACTUALIZAR
+    camposActualizar.forEach(element=>{
+        //EN DADO CASO UNO DE LOS ELEMENTO NO CONCUERDE CON LOS CAMPOS PERMITIDOS
+        if (!CamposPermitidos.includes(element)) camposNoPermitodos.push(element);
 
-module.exports=existVendedorForId;
+    });
+    //SI HAY CAMPOS QUE NO ESTAN PERMITIDOS
+    if (camposNoPermitodos.length>0) return res.status(400).json({Problems:`Los campos ${camposNoPermitodos} no estan permitidos, los campos permitidos son ${CamposPermitidos}`}).end();
+    //SI TODO SALE BIEN
+    next();
+
+}
+
+
+module.exports={existVendedorForId,validarCamposPermitidos};
