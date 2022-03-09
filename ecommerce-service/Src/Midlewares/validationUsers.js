@@ -1,3 +1,4 @@
+//IMPORTACIONES
 const Vendedor = require("../Models/vendedor-Model")
 
 //FUNCION PARA VERIFICAR SI EXISTE UN USUARIO POR ID
@@ -20,26 +21,45 @@ const existVendedorForId=async(req,res,next)=>{
 
 }
 //FUNCION PARA VALIDAR QUE LOS CAMPOS QUE SE ESTEN ENVIANDO SON LOS PERMITIDOS
-const validarCamposPermitidos=(req,res,next)=>{
-    
-    //SACANDO UN ARREGLO DE LAS LLAVES DEL OBJETO BODY
-    const camposActualizar=  Object.keys(req.body);
-    //ARREGLO QUE INDICA LOS CAMPOS PERMITIDOS
-    const CamposPermitidos=['Nombre','Username','Descripcion'];
-    //ARREGLO PARA ALMACENAR LOS CAMPOS QUE NO SON PERMITIDOS
-    let camposNoPermitodos=[];
-    //RECORRIENDO LOS ELEMENTOS DE LOS CAMPOS A ACTUALIZAR
-    camposActualizar.forEach(element=>{
-        //EN DADO CASO UNO DE LOS ELEMENTO NO CONCUERDE CON LOS CAMPOS PERMITIDOS
-        if (!CamposPermitidos.includes(element)) camposNoPermitodos.push(element);
+const validarCamposPermitidos=(...CamposPermitidos)=>{
 
-    });
-    //SI HAY CAMPOS QUE NO ESTAN PERMITIDOS
-    if (camposNoPermitodos.length>0) return res.status(400).json({Problems:`Los campos ${camposNoPermitodos} no estan permitidos, los campos permitidos son ${CamposPermitidos}`}).end();
-    //SI TODO SALE BIEN
-    next();
+    return (req,res,next)=>{
+         
+          //SACANDO UN ARREGLO DE LAS LLAVES DEL OBJETO BODY
+          const camposActualizar=  Object.keys(req.body);
+          //ARREGLO PARA ALMACENAR LOS CAMPOS QUE NO SON PERMITIDOS
+          let camposNoPermitodos=[];
+          //RECORRIENDO LOS ELEMENTOS DE LOS CAMPOS A ACTUALIZAR
+          camposActualizar.forEach(element=>{
+          //EN DADO CASO UNO DE LOS ELEMENTO NO CONCUERDE CON LOS CAMPOS PERMITIDOS
+         if (!CamposPermitidos.includes(element)) camposNoPermitodos.push(element);
+
+         });
+         //SI HAY CAMPOS QUE NO ESTAN PERMITIDOS
+        if (camposNoPermitodos.length>0) return res.status(400).json({Problems:`Los campos ${camposNoPermitodos} no estan permitidos, los campos permitidos son ${CamposPermitidos}`}).end();
+        //SI TODO SALE BIEN
+        next();
+
+    }
 
 }
+//VALIDANDO LOS USUARIO PERMITIDOS
+const validateUserType=(...usuariosPermitidos)=>{
+
+    return (req,res,next)=>{
+
+      //DESESTRUCTURANDO EL USERTYPE DEL BODY
+      const {userType}=req.body;
+      //EN DADO CASO QUE EL USER TYPE NO VENGA
+      if (!userType) return res.status(400).json({Problems:`El tipo de usuario es necesario`}).end();
+      //SI EL USUARIO NO ESTA DENTRO DEL ARREGLO DE PERMITIDOS
+      if (!usuariosPermitidos.includes(userType)) return res.status(401).json({Problems:`El tipo de usuario ${userType} no tiene permitido realizar estas acciones`}).end();
+      //SI TODO SALE BIEN
+      next();
+
+  }
 
 
-module.exports={existVendedorForId,validarCamposPermitidos};
+}
+//EXPORTANDO LAS FUNCIONES
+module.exports={existVendedorForId,validarCamposPermitidos,validateUserType};

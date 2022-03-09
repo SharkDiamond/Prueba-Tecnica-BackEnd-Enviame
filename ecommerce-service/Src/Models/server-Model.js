@@ -14,8 +14,9 @@ class Server{
         //SENDEROS
         this.path={
 
+         'Token':'/Token',
          'Administrator':'/AdministradorMercado',
-         'Token':'/Token'
+         'Vendedor':'/Vendedor'
 
         };
 
@@ -45,11 +46,14 @@ class Server{
     }
 
     Routes(){
-
-        //RUTA PARA LOS ADMINISTRADORES DEL MERCADO
-        this.app.use(this.path.Administrator,require('../Routes/administradorMercado-Route'));
+        //DESESTRUCTURANDO EL OBJETO PATH
+        const {Token,Administrator,Vendedor}=this.path;
         //RUTA PARA EL TOKEN
-        this.app.use(this.path.Token,require('../Routes/Token-Route'));
+        this.app.use(Token,require('../Routes/Token-Route'));
+        //RUTA PARA LOS ADMINISTRADORES DEL MERCADO
+        this.app.use(Administrator,require('../Routes/administradorMercado-Route'));
+        //RUTA PARA LOS VENDEDORES
+        this.app.use(Vendedor,require('../Routes/vendedor-Route'));
 
     }
 

@@ -7,12 +7,14 @@ const createVendedores=async(req,res)=>{
     const {body}=req;
 
     try {
+       //SACANDO EL USERTYPE DE LOS DATOS A ACTUALIZAR
+       const {userType,...create}=body;
        //INSTANCIANDO EL NUEVO VENDEDOR CON LOS DATOS ENVIANDO POR EL BODY
-       const newVendedor= new Vendedor(body);
+       const newVendedor= new Vendedor(create);
        //GUARDANDO EL NUEVO VENDEDOR
        await newVendedor.save();
        //INDICANDO QUE SE CREO EL VENDEDOR DE MANERA EXITOSA
-       res.status(201).json({msg:"Usuario Vendedor Creado!",body}).end();
+       res.status(201).json({msg:"Usuario Vendedor Creado!",create}).end();
 
     } catch (error) {
 
@@ -74,6 +76,8 @@ const updateVendedor=async(req,res)=>{
 
         //DESESTRUCTURANDO EL BODY Y EL PARAMS DEL OBJETO REQUEST
         const {body,params}=req;
+        //SACANDO EL USER TYPE DE LOS DATOS A ACTUALIZAR
+        const {userType,...updateData}=body;
         //HACIENDO LAS VALIDACIONES CORRESPONDIENTES
         const responseValidate=await valideCamposInController(body,params.id);
         //SI LA FUNCION RETORNA EL VALOR BOOLEANO DE TRUE
@@ -82,9 +86,10 @@ const updateVendedor=async(req,res)=>{
             //BUSCANDO UN VENDEDOR CON EL ID
             const findVendedor=await Vendedor.findByPk(params.id);
             //ACTUALIZANDO LA INFORMACION DEL USUARIO ENCONTRADO
-            const usuarioActualizado=await findVendedor.update(body);
+            const usuarioActualizado=await findVendedor.update(updateData);
             //RESPONDIENDO QUE EL USUARIO FUE ACTUALIZADO EXITOSAMENTE
             return res.json({msg:"Usuario Actualizado Exitosamente",usuarioActualizado}).end();
+            
         }
         //SI RETORNA CUALQUIER OTRO VALOR ES DECIR UN ERROR
         res.status(400).json({Problems:responseValidate}).end();
