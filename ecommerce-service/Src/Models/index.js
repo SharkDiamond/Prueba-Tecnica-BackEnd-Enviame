@@ -1,6 +1,7 @@
 //IMPORTACIONES
 const Vendedor = require("./vendedor-Model");
 const Producto = require("./producto-Model");
+const usuarioMercado = require("./usuarioMercado-Model");
 
 //HACIENDO LA RELACION DE 1 A MUCHOS 
 Vendedor.hasMany(Producto);
@@ -11,6 +12,7 @@ Producto.belongsTo(Vendedor,{foreignKey:'VendedorId'});
 module.exports={
 
     Vendedor,
-    Producto
+    Producto,
+    usuarioMercado
 
 }

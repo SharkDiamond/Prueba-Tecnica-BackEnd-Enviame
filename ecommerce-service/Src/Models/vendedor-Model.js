@@ -34,6 +34,11 @@ const Vendedor=db.define('vendedores',{
 
             type:BOOLEAN
 
+        },
+        DireccionAlmacen:{
+
+            type:STRING
+
         }
 
 });

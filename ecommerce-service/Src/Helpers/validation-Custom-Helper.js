@@ -1,5 +1,5 @@
 //IMPORTACIONES
-const { Vendedor } = require("../Models");
+const { Vendedor, Producto } = require("../Models");
 
 //FUNCION QUE VALIDA SI EL USUARIO EXISTE
 const existUsername=async(Username)=>{
@@ -9,7 +9,8 @@ const existUsername=async(Username)=>{
 
         where:{
 
-            Username
+            Username,
+            Estado:true
 
         }
 
@@ -46,5 +47,21 @@ const valideCamposInController=async(body,id)=>{
 
 }
 
+//FUNCION PARA HACER VALIDACION DE LOS CAMPOS DESDE LOS EN VENDEDORES
+const valideCamposInControllerVendedores=async(body)=>{
+    
+    //VALIDANDO EL USERNAME
+    if (body.Nombre.length==0  && body.Nombre) return 'El nombre del producto no puede estar vacio';
+    //VALIDANDO LA DESCRIPCION
+    if ((body.Descripcion.length<12 || body.Descripcion.length>60) && body.Descripcion) return 'La descripcion del producto debe tener minimo 12 letras y maximo 60 letras';
+    //VALIDANDO LA CANTIDAD
+    if ( typeof(body.Cantidad)=='number' && body.Cantidad) return 'El tipo de dato de cantidad debe de ser numerico';
+    //RETORNANDO TRUE SI PARA TODAS LAS VALIDACIONES
+    return true;
+
+}
+
+
+
 //EXPORTACIONES
-module.exports={existUsername,valideCamposInController};
+module.exports={existUsername,valideCamposInController,valideCamposInControllerVendedores};
