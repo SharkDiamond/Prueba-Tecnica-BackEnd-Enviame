@@ -14,7 +14,7 @@ const Producto=db.define('productos',{
             autoIncrement: true
 
         },
-        VendedorId:{
+        IdVendedor:{
             
             type:BIGINT
 

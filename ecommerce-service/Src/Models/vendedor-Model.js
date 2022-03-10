@@ -7,7 +7,7 @@ const {STRING,BOOLEAN,BIGINT}=DataTypes;
 //CREANDO EL MODELO DE VENDEDOR
 const Vendedor=db.define('vendedores',{
 
-        VendedorId:{
+    IdVendedor:{
 
             type:BIGINT,
             primaryKey: true,

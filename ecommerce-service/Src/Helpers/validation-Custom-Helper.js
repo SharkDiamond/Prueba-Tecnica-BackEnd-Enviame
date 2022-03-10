@@ -1,5 +1,5 @@
 //IMPORTACIONES
-const { Vendedor, Producto } = require("../Models");
+const { Vendedor } = require("../Models");
 
 //FUNCION QUE VALIDA SI EL USUARIO EXISTE
 const existUsername=async(Username)=>{
@@ -23,12 +23,19 @@ const existUsername=async(Username)=>{
 
 
 }
-//FUNCION PARA HACER VALIDACION DE LOS CAMPOS DESDE LOS CONTROLADORES
+//FUNCION PARA HACER VALIDACION DE LOS CAMPOS DESDE LOS CONTROLADORES VERIFICAR ESTO BIEN 11 PM CAMBIARLO CON UN SWITCH
 const valideCamposInController=async(body,id)=>{
+
+    //SACANDO EN UN ARREGLO LAS LLAVES DEL OBJETO BODY
+    const keysBody=Object.keys(body);
+
     //VALIDANDO EL USERNAME
-    if ((body.Username.length<8 || body.Username.length>15) && body.Username) return 'El nombre de usuario debe tener minimo 8 letras y maximo 15 letras';
+    if (keysBody.includes('Username') && (body.Username.length<8 || body.Username.length>15)) return 'El nombre de usuario debe tener minimo 8 letras y maximo 15 letras';
     //VALIDANDO LA DESCRIPCION
-    if ((body.Descripcion.length<12 || body.Descripcion.length>50) && body.Descripcion) return 'La descripcion del usuario debe tener minimo 12 letras y maximo 50 letras';
+    if (keysBody.includes("Descripcion") && (body.Descripcion.length<12 || body.Descripcion.length>50) ) return 'La descripcion del usuario debe tener minimo 12 letras y maximo 50 letras';
+    //VALIDANDO DIRECCION ALMACEN
+     if (keysBody.includes("DireccionAlmacen") && body.DireccionAlmacen.length>0) return 'La descripcion del usuario debe tener minimo 12 letras y maximo 50 letras';
+    
     //BUSCANDO EL USUARIO
     const VendedorUsername= await Vendedor.findOne({
 
@@ -50,18 +57,22 @@ const valideCamposInController=async(body,id)=>{
 //FUNCION PARA HACER VALIDACION DE LOS CAMPOS DESDE LOS EN VENDEDORES
 const valideCamposInControllerVendedores=async(body)=>{
     
+    //SACANDO EN UN ARREGLO LAS LLAVES DEL OBJETO BODY
+    const keysBody=Object.keys(body);
     //VALIDANDO EL USERNAME
-    if (body.Nombre.length==0  && body.Nombre) return 'El nombre del producto no puede estar vacio';
+    if (keysBody.includes('Nombre') && body.Nombre.length==0) return 'El nombre del producto no puede estar vacio';
     //VALIDANDO LA DESCRIPCION
-    if ((body.Descripcion.length<12 || body.Descripcion.length>60) && body.Descripcion) return 'La descripcion del producto debe tener minimo 12 letras y maximo 60 letras';
+    if ( keysBody.includes('Descripcion') && (body.Descripcion.length<12 || body.Descripcion.length>60) ) return 'La descripcion del producto debe tener minimo 12 letras y maximo 60 letras';
+    //SACANDO EL TIPO DE DATO DE CANTIDAD
+    let typeCantidad= typeof(body.Cantidad);
     //VALIDANDO LA CANTIDAD
-    if ( typeof(body.Cantidad)=='number' && body.Cantidad) return 'El tipo de dato de cantidad debe de ser numerico';
+    if (keysBody.includes('Cantidad') && typeCantidad!=='number') return 'El tipo de dato de cantidad debe de ser numerico';
     //RETORNANDO TRUE SI PARA TODAS LAS VALIDACIONES
     return true;
 
+
+
 }
-
-
 
 //EXPORTACIONES
 module.exports={existUsername,valideCamposInController,valideCamposInControllerVendedores};

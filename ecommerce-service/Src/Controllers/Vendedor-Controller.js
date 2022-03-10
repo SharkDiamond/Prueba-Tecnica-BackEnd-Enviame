@@ -9,7 +9,9 @@ const createProducto=async(req,res)=>{
         
         const {userType,...data}=req.body;
         //ASIGNANDOLE EL ID A LA PROPIEDAD VENDEDORID
-        data.VendedorId=req.params.id;
+        data.IdVendedor=req.params.id;
+
+    
        //INSTANCIANDO EL NUEVO VENDEDOR CON LOS DATOS ENVIANDO POR EL BODY
        const newProducto= new Producto(data);
        //GUARDANDO EL NUEVO VENDEDOR
@@ -18,6 +20,7 @@ const createProducto=async(req,res)=>{
        res.status(201).json({msg:'Producto Creado Exitosamente',newProducto}).end();
 
     } catch (error) {
+        console.log(error.message);
         //RESPONDIENDO EN DADO CASO OCURRA UN PROBLEMA
         res.status(500).json({Problems:error}).end();
 
@@ -47,7 +50,7 @@ const listProductos=async(req,res)=>{
         //SACANDO TODOS LOS PRODUCTOS QUE EN QUE EL ESTADO SEA TRUE Y CONCUERDEN CON EL ID DEL VENDEDOR
         const Productos=await Producto.findAll({where: {
             Estado: true,
-            VendedorId:req.params.id
+            IdVendedor:req.params.id
             }});
         //EN DADO CASO NO HAYA PRODUCTOS
         if (Productos.length==0) return res.status(204).end();
@@ -74,14 +77,14 @@ const deleteProducto=async(req,res)=>{
     try {
 
         //ELIMINANDO EL PRODUCTO CAMBIANDO EL ESTADO A FALSE
-       const ProductoEliminado= await Producto.update({Estado:false}, {
+       await Producto.update({Estado:false}, {
             where: {
                 IdProducto: req.params.id
             }
           });
         //RESPONDIENDO QUE EL PRODUCTO FUE ELIMINADO
         res.json({msg:`Producto Eliminado`,
-        ProductoEliminado}).end();
+        "Producto":req.producto}).end();
 
     } catch (error) {
         
@@ -92,7 +95,7 @@ const deleteProducto=async(req,res)=>{
 
 }
 //PARA ACTUALIZAR UN PRODUCTO - FALTA ESTO
-const updateProducto=(req,res)=>{
+const updateProducto=async(req,res)=>{
 
     try {
 
@@ -101,7 +104,7 @@ const updateProducto=(req,res)=>{
         //SACANDO EL USER TYPE DE LOS DATOS A ACTUALIZAR
         const {userType,...updateData}=body;
         //HACIENDO LAS VALIDACIONES CORRESPONDIENTES
-        const responseValidate=await valideCamposInControllerVendedores(body);
+        const responseValidate=await valideCamposInControllerVendedores(updateData);
         //SI LA FUNCION RETORNA EL VALOR BOOLEANO DE TRUE
         if (responseValidate==true) {
             
@@ -117,7 +120,6 @@ const updateProducto=(req,res)=>{
         res.status(400).json({Problems:responseValidate}).end();
         
     } catch (error) {
-
         //EN DADO CASO OCURRA UN ERROR RESPONDIENDOLO
         res.status(500).json({'Problems':error.message}).end();
           

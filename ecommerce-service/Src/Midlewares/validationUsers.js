@@ -21,6 +21,9 @@ const existVendedorForId=async(req,res,next)=>{
     //SIGUIENDO YA QUE TODO SALIO BIEN
     next();
     } catch (error) {
+
+
+        console.log(error.message);
         //RESPONDIENDO EN DADO CASO OCURRA UN ERROR
         res.status(500).json(error).end();
     }

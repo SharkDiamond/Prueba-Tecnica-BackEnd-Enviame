@@ -2,11 +2,11 @@
 const { DataTypes } =require('sequelize');
 const db = require('../Database/ConectarDB');
 //DESESTRUCTURANDO LOS TIPOS A USAR
-const {STRING,BIGINT}=DataTypes;
+const {STRING,BIGINT,BOOLEAN}=DataTypes;
 //CREANDO EL MODELO DE usuarioMercado
-const usuarioMercado=db.define('usuariosMercado',{
+const usuarioMercado=db.define('mercadoUsuarios',{
 
-        UsuarioMercadoId:{
+    IdUsuarioMercado:{
 
             type:BIGINT,
             primaryKey: true,
@@ -23,6 +23,13 @@ const usuarioMercado=db.define('usuariosMercado',{
         Direccion_De_Envio:{
 
             type:STRING
+
+        },
+
+        Estado:{
+
+            type:BOOLEAN
+
 
         }
 

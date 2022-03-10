@@ -13,14 +13,13 @@ const route=Router();
 //CREAR UN PRODUCTO
 route.post('/crearProducto/:id',[validarToken,validarCamposPermitidos('Nombre','Descripcion','Cantidad','userType'),
                                  validateUserType('Vendedor'),existVendedorForId,ProductExist,
-                                 check('Nombre','El nombre del producto no puede estar vacio').not().isEmpty(),
                                  check('Descripcion','La descripcion del producto debe tener minimo 12 letras y maximo 60 letras').isLength({min:12,max:60}),
                                  check('Cantidad','La cantidad debe de ser un valor numerico').isNumeric(),validationExpress],createProducto);
 //OBTENER UN PRODUCTO POR SU ID
 route.get('/ObtenerProducto/:id',[validarToken,validateUserType('Vendedor'),productExistForId],getProducto);
 //LISTAR LOS PRODUCTOS DE UN VENDEDOR POR EL ID DE VENDEDOR
 route.get('/listProducto/:id',[validarToken,validateUserType('Vendedor'),existVendedorForId],listProductos);
-//ELIMINAR UN PRODUCTO
+//ELIMINAR UN PRODUCTO POR SU ID
 route.delete('/EliminarProducto/:id',[validarToken,validateUserType('Vendedor'),productExistForId],deleteProducto);
 //ACTUALIZAR INFORMACION DE UN PRODUCTO
 route.put('/actualizarProducto/:id',[validarToken,validarCamposPermitidos('Nombre','Cantidad','Descripcion','userType'),productExistForId],updateProducto);
