@@ -1,5 +1,5 @@
 //IMPORTACIONES
-const { usuarioMercado } = require("../Models");
+const { usuarioMercado, Pedido, Producto } = require("../Models");
 
 //FUNCION PARA CREAR EL USUARIO DE MERCADO
 const createUsuarioMercado=async(req,res)=>{
@@ -22,18 +22,57 @@ const createUsuarioMercado=async(req,res)=>{
 
 
 }
-//FUNCION PARA CREAR UNA COMPRA
+//FUNCION PARA CREAR UNA COMPRA //FALTA COLOCARLE UN ESTADO POR DEFECTO Y COLOCAR EL UPDATE ADD Y CREATE ADD
 const createCompra=async(req,res)=>{
 
-    // await usuarioMercado
- 
- 
+    try {
+        //DESESTRUCTURANDO DEL OBJETO BODY
+        const {userType,ProductId,...data}=req.body;
+        //DESESTRUCTURANDO DEL OBJETO REQUEST
+        const {vendedorId,CantidadFinal,ProductoEncontrado}=req;
+        //ASIGNANDOLE AL SKU EL PRODUCT ID
+        data.Sku=ProductId;
+        //ASIGNANDO EL VENDEDOR ID
+        data.vendedorId=vendedorId;
+       //INSTANCIANDO EL NUEVO PEDIDO CON LOS DATOS ENVIANDO POR EL BODY
+       const newPedido= new Pedido(data);
+       //GUARDANDO EL NUEVO VENDEDOR Y CAMBIANDO LA CANTIDAD DEL PRODUCTO
+       await Promise.all([newPedido.save(),ProductoEncontrado.update({Cantidad:CantidadFinal})]);
+       //RESPONDIENDO QUE EL PRODUCTO FUE CREADO EXITOSAMENTE
+       res.status(201).json({msg:'Compra Realizada',newPedido}).end();
+
+    } catch (error) {
+       
+        //RESPONDIENDO EN DADO CASO OCURRA UN PROBLEMA
+        res.status(500).json({Problems:error}).end();
+
+    }
+
  }
 //FUNCION PARA CANCELAR UNA COMPRA
 const cancelCompra=async(req,res)=>{
 
-    // await usuarioMercado
- 
+    try {
+
+        //DESESTRUCTURANDO DEL OBJETO REQUEST
+        const {PedidoEncontrado}=req;
+        //ACTUALIZANDO EL ESTADO DEL PEDIDO Y BUSCANDO EL PRODUCTO
+        const [updatePedido,findProduct]=await Promise.all([PedidoEncontrado.update({"Estado":'Cancelado'}),Producto.findByPk(req.idProducto)]);
+        //ACTUALIZANDO EL STOCK DEL PRODCUTO
+        await findProduct.update({Cantidad:PedidoEncontrado.dataValues.Cantidad+findProduct.dataValues.Cantidad});
+        //RESPONDIENDO
+        res.json({msg:"Pedido Cancelado",PedidoEncontrado}).end();
+
+    } catch (error) {
+
+        //RESPONDIENDO EN DADO CASO OCURRA UN PROBLEMA
+        res.status(500).json({Problems:error}).end();
+        
+    }
+
+
+    
+    
  
  }
 

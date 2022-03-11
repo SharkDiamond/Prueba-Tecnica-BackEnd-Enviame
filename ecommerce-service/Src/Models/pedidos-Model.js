@@ -3,44 +3,51 @@ const { DataTypes } =require('sequelize');
 const db = require('../Database/ConectarDB');
 
 //DESESTRUCTURANDO LOS TIPOS A USAR
-const {STRING,BOOLEAN,BIGINT}=DataTypes;
-//CREANDO EL MODELO DE PRODUCTO
-const Producto=db.define('productos',{
+const {STRING,BIGINT}=DataTypes;
+//CREANDO EL MODELO DE Pedido
+const Pedido=db.define('Pedidos',{
 
-        IdProducto:{
+        idPedidos:{
 
             type:BIGINT,
             primaryKey: true,
             autoIncrement: true
 
         },
-        IdVendedor:{
+        Sku:{
             
             type:BIGINT
 
         },
+        VendedorId:{
+            
+            type:BIGINT
 
-        Nombre:{
+        },
+        UsuarioMercadoId:{
+            
+            type:BIGINT
 
-            type: STRING
+        },
+        Estado:{
+
+            type:STRING
 
         },
         Cantidad:{
 
             type:BIGINT
 
-        },
-        Descripcion:{
-
-            type:STRING
-
-        },
-        Estado:{
-
-            type:BOOLEAN
-
         }
 
 });
+
+/*
+    valores de estado
+ "creado"  -> "confirmado" -> "enviado"
+
+
+*/
+
 //EXPORTANDO EL MODELO DE PRODUCTO
-module.exports=Producto;
+module.exports=Pedido;

@@ -62,11 +62,49 @@ const productExistForId=async(req,res,next)=>{
 
 
 }
+//FUNCION PARA VERIFICAR SI EXISTE UN USUARIO POR ID
+const productExistForIdForBody=async(req,res,next)=>{
+
+    try {
+        
+        //DESESTRUCTURANDO EL PRODUCTID Y LA CANTIDAD DEL BODY
+        const {ProductId,Cantidad}=req.body;
+         //EN DADO CASO NO VENGA EL ID DEL PRODUCTO 
+         if (!ProductId) return res.status(400).json(`El id del producto es necesario`).end();
+        //EN DADO CASO NO VENGA LA CANTIDAD
+         if (!Cantidad || Cantidad==0) return res.status(400).json(`La cantidad es necesaria!`).end();
+        //BUSCANDO EL PRODUCTO POR ID
+        const ProductoEncontrado=await Producto.findByPk(ProductId);
+        //EN DADO CASO QUE NO EXISTA UN PRUDCTO CON EL ID
+        if (!ProductoEncontrado || !ProductoEncontrado.dataValues.Estado) return res.status(404).json({Problems:`No existe un producto con el id=${id}`}).end();
+        //EN DADO CASO LA CANTIDAD SE MAYOR AL STOCK DEL PRODUCTO
+        if (Cantidad>ProductoEncontrado.dataValues.Cantidad) return res.status(400).json(`Su compra excede el stock del producto, actualmente hay ${ProductoEncontrado.dataValues.Cantidad} elementos disponibles de este producto`).end();
+        //AGREGANDO EL VENDEDOR ID AL OBJETO REQUEST
+        req.vendedorId=ProductoEncontrado.dataValues.IdVendedor;
+        //AGREGANDO EL PRODUCTO ENCONTRADO AL OBJETO REQUEST
+        req.ProductoEncontrado=ProductoEncontrado;
+        //AGREGANDO LA CANTIDAD FINAL AL PARAMS
+        req.CantidadFinal=ProductoEncontrado.dataValues.Cantidad-Cantidad;
+        //SIGUIENDO YA QUE TODO SALIO BIEN
+        next();
+
+    } catch (error) {
+
+        //RESPONDIENDO EN DADO CASO OCURRA UN ERROR
+        res.status(500).json(error).end();
+
+    }
+
+
+
+}
+
 
 //EXPORTACIONES
 module.exports={
 
     ProductExist,
-    productExistForId
+    productExistForId,
+    productExistForIdForBody
 
 }
