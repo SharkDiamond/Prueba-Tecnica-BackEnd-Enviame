@@ -9,9 +9,10 @@ Vendedor.hasMany(Producto,{foreignKey:"IdVendedor"});
 
 Producto.belongsTo(Vendedor,{foreignKey:"IdVendedor"});
 
-
-//MALO
 usuarioMercado.hasMany(Pedido,{foreignKey:"UsuarioMercadoId"});
+
+Pedido.belongsTo(usuarioMercado,{foreignKey:"UsuarioMercadoId"});
+
 
 Producto.hasMany(Pedido,{foreignKey:"Sku"});
 

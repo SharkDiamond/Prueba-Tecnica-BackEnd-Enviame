@@ -1,8 +1,9 @@
 //IMPORTACIONES
 const {Router}=require('express');
 const {check}=require('express-validator');
-const { createVendedores, getVendedor, listVendedores, deleteVendedor,deleteVendedorFisic, updateVendedor } = require('../Controllers/Administrador-Mercado-Controller');
+const { createVendedores, getVendedor, listVendedores, deleteVendedor,deleteVendedorFisic, updateVendedor, obtenerPedidos, cancelarPedidoAdministradorMercado } = require('../Controllers/Administrador-Mercado-Controller');
 const {existUsername} = require('../Helpers/validation-Custom-Helper');
+const { validateCompraForIdBody } = require('../Midlewares/PedidosCompra');
 const { validationExpress } = require('../Midlewares/validationExpress');
 const validarToken = require('../Midlewares/validationJWT');
 const {existVendedorForId,validarCamposPermitidos,validateUserType} = require('../Midlewares/validationUsers');
@@ -24,7 +25,10 @@ route.get('/listVendedores',[validarToken,validateUserType('Administrador_Mercad
 route.delete('/EliminarVendedor/:id',[validarToken,validateUserType('Administrador_Mercado'),existVendedorForId],deleteVendedor);
 //ELIMINAR VENDEDOR DE MANERA FISICA
 route.delete('/EliminarVendedorFisica/:id',[validarToken,validateUserType('Administrador_Mercado'),existVendedorForId],deleteVendedorFisic);
-
+//OBTENER PEDIDOS
+route.get('/ObtenerPedidosMercardo',[validarToken,validateUserType('Administrador_Mercado'),validarCamposPermitidos('userType')],obtenerPedidos);
+//CANCELAR PEDIDOS
+route.delete('/CancelarPedido',[validarToken,validateUserType('Administrador_Mercado'),validateCompraForIdBody],cancelarPedidoAdministradorMercado);
 
 //EXPORTANDO LAS RUTAS              
 module.exports=route;

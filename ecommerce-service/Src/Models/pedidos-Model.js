@@ -7,7 +7,7 @@ const {STRING,BIGINT}=DataTypes;
 //CREANDO EL MODELO DE Pedido
 const Pedido=db.define('Pedidos',{
 
-        idPedidos:{
+    IdPedido:{
 
             type:BIGINT,
             primaryKey: true,

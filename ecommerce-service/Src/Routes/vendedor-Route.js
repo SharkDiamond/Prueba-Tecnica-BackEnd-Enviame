@@ -1,7 +1,8 @@
 //IMPORTACIONES
 const {Router}=require('express');
 const {check}=require('express-validator');
-const { createProducto, getProducto, listProductos,deleteProducto, updateProducto} = require('../Controllers/Vendedor-Controller');
+const { createProducto, getProducto, listProductos,deleteProducto, updateProducto, OrdenesCompras, cambiarOrden} = require('../Controllers/Vendedor-Controller');
+const { validateCompraForIdBodyVendedor } = require('../Midlewares/PedidosCompra');
 const { ProductExist, productExistForId } = require('../Midlewares/Productos');
 const { validationExpress } = require('../Midlewares/validationExpress');
 const validarToken = require('../Midlewares/validationJWT');
@@ -23,6 +24,12 @@ route.get('/listProducto/:id',[validarToken,validateUserType('Vendedor'),existVe
 route.delete('/EliminarProducto/:id',[validarToken,validateUserType('Vendedor'),productExistForId],deleteProducto);
 //ACTUALIZAR INFORMACION DE UN PRODUCTO
 route.put('/actualizarProducto/:id',[validarToken,validarCamposPermitidos('Nombre','Cantidad','Descripcion','userType'),productExistForId],updateProducto);
+//OBTENER ORDENES DE COMPRA
+route.get('/OrdenesCompras/:id',[validarToken,validarCamposPermitidos('userType'),validateUserType('Vendedor'),existVendedorForId],OrdenesCompras);
+//ACTUALIZAR ESTADO PEDIDO
+route.put('/CambiarEstadoOrden/:id',[validarToken,validarCamposPermitidos('userType','Estado','PedidoId'),
+                                validateUserType('Vendedor'),existVendedorForId,validateCompraForIdBodyVendedor],cambiarOrden);
+
 
 //EXPORTANDO LAS RUTAS
 module.exports=route;

@@ -33,7 +33,7 @@ const createCompra=async(req,res)=>{
         //ASIGNANDOLE AL SKU EL PRODUCT ID
         data.Sku=ProductId;
         //ASIGNANDO EL VENDEDOR ID
-        data.vendedorId=vendedorId;
+        data.VendedorId=vendedorId;
        //INSTANCIANDO EL NUEVO PEDIDO CON LOS DATOS ENVIANDO POR EL BODY
        const newPedido= new Pedido(data);
        //GUARDANDO EL NUEVO VENDEDOR Y CAMBIANDO LA CANTIDAD DEL PRODUCTO
@@ -56,24 +56,22 @@ const cancelCompra=async(req,res)=>{
 
         //DESESTRUCTURANDO DEL OBJETO REQUEST
         const {PedidoEncontrado}=req;
+        //DESESTRUCTURANDO DEL OBJETO DATA VALUES DEL OBJETO PedidoEncontrado
+        const {Cantidad : CantidadComprada,Sku}=PedidoEncontrado.dataValues;
         //ACTUALIZANDO EL ESTADO DEL PEDIDO Y BUSCANDO EL PRODUCTO
-        const [updatePedido,findProduct]=await Promise.all([PedidoEncontrado.update({"Estado":'Cancelado'}),Producto.findByPk(req.idProducto)]);
+        const [updatePedido,findProduct]=await Promise.all([PedidoEncontrado.update({"Estado":'Cancelado Por Usuario De Mercado'}),Producto.findByPk(Sku)]);
         //ACTUALIZANDO EL STOCK DEL PRODCUTO
-        await findProduct.update({Cantidad:PedidoEncontrado.dataValues.Cantidad+findProduct.dataValues.Cantidad});
+        await findProduct.update({Cantidad:CantidadComprada+findProduct.dataValues.Cantidad});
         //RESPONDIENDO
         res.json({msg:"Pedido Cancelado",PedidoEncontrado}).end();
 
     } catch (error) {
-
+        console.log(error.message);
         //RESPONDIENDO EN DADO CASO OCURRA UN PROBLEMA
         res.status(500).json({Problems:error}).end();
         
     }
 
-
-    
-    
- 
  }
 
 //EXPORTACIONES

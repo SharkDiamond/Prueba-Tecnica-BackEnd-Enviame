@@ -76,7 +76,7 @@ const productExistForIdForBody=async(req,res,next)=>{
         //BUSCANDO EL PRODUCTO POR ID
         const ProductoEncontrado=await Producto.findByPk(ProductId);
         //EN DADO CASO QUE NO EXISTA UN PRUDCTO CON EL ID
-        if (!ProductoEncontrado || !ProductoEncontrado.dataValues.Estado) return res.status(404).json({Problems:`No existe un producto con el id=${id}`}).end();
+        if (!ProductoEncontrado || !ProductoEncontrado.dataValues.Estado) return res.status(404).json({Problems:`No existe un producto con el id=${ProductId}`}).end();
         //EN DADO CASO LA CANTIDAD SE MAYOR AL STOCK DEL PRODUCTO
         if (Cantidad>ProductoEncontrado.dataValues.Cantidad) return res.status(400).json(`Su compra excede el stock del producto, actualmente hay ${ProductoEncontrado.dataValues.Cantidad} elementos disponibles de este producto`).end();
         //AGREGANDO EL VENDEDOR ID AL OBJETO REQUEST
@@ -89,7 +89,6 @@ const productExistForIdForBody=async(req,res,next)=>{
         next();
 
     } catch (error) {
-
         //RESPONDIENDO EN DADO CASO OCURRA UN ERROR
         res.status(500).json(error).end();
 

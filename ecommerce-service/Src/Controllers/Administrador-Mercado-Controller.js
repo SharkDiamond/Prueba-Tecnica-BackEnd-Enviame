@@ -1,6 +1,6 @@
 //IMPORTACIONES
 const { valideCamposInController } = require("../Helpers/validation-Custom-Helper");
-const { Vendedor } = require("../Models");
+const { Vendedor, Pedido, Producto } = require("../Models");
 
 //PARA CREAR VENDEDORES
 const createVendedores=async(req,res)=>{
@@ -148,5 +148,58 @@ const deleteVendedorFisic=async(req,res)=>{
 
 }
 
+const obtenerPedidos=async(req,res)=>{
+
+    try {
+        //SACANDO TODOS LOS PEDIDOS DEL MERCADO
+        const Pedidos=await Pedido.findAll();
+        //EN DADO NO HAYA PEDIDOS
+        if (Pedidos.length==0) return res.json(`No hay pedidos al momento`).end();
+        //RESPONDIENDO CON LOS PEDIDOS DEL MERCADO Y LA CANTIDAD DE PEDIDOS
+        res.json({'Cantidad':Pedidos.length,
+                    Pedidos}).end();
+
+
+
+    } catch (error) {
+
+          //EN DADO CASO OCURRA UN ERROR RESPONDIENDOLO
+          res.status(500).json({'Problems':error.message}).end();
+    
+      }
+
+
+
+}
+
+
+const cancelarPedidoAdministradorMercado=async(req,res)=>{
+
+    try {
+
+        //DESTRUCTURANDO DEL OBJETO REQUEST EL PEDIDO ENCONTRADO
+        const {PedidoEncontrado}=req;
+        //DESESTRUCTURANDO DEL OBJETO DATAVALUES
+        const {Sku,Cantidad : CantidadPedido}=PedidoEncontrado.dataValues;
+        //CANCELANDO EL PEDIDO
+        const PedidoCancelado= await PedidoEncontrado.update({Estado:'cancelado Por Administrador De Mercado'});
+        //AUMENTANDO EL STOCK DEL PRODUCTO
+        const findProduct=await Producto.findByPk(PedidoEncontrado.dataValues.Sku);
+        //ACTUALIZANDO EL STOCK DEL PRODUCTO
+        await findProduct.update({Cantidad:findProduct.dataValues.Cantidad+CantidadPedido});
+        //RESPONDIENDO QUE EL PEDIDO FUE CANCELADO
+        res.json({msg:"Pedido Cancelado","PedidoCancelado":PedidoCancelado.dataValues});
+
+    } catch (error) {
+        
+        //EN DADO CASO OCURRA UN ERROR RESPONDIENDOLO
+        res.status(500).json({'Problems':error.message}).end();
+    
+
+    }
+
+
+}
+
 //EXPORTANDO LAS FUNCIONES
-module.exports={createVendedores,getVendedor,listVendedores,updateVendedor,deleteVendedor,deleteVendedorFisic};
+module.exports={createVendedores,getVendedor,listVendedores,updateVendedor,deleteVendedor,deleteVendedorFisic,obtenerPedidos,cancelarPedidoAdministradorMercado};

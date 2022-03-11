@@ -57,7 +57,7 @@ const validateExistUsuarioMercardoForId=async(req,res,next)=>{
 }
 //FUNCION PARA VALIDAR SI EXISTE UN USUARIO POR ID
 const validateExistUsuarioMercardoForIdBody=async(req,res,next)=>{
-    
+
     try {
         
         //DESESTRUCTURANDO EL NOMBRE DEL BODY
@@ -76,6 +76,7 @@ const validateExistUsuarioMercardoForIdBody=async(req,res,next)=>{
         next();
 
     } catch (error) {
+       
         //RESPONDIENDO EN DADO CASO OCURRA UN ERROR
         res.status(500).json(error).end();
 

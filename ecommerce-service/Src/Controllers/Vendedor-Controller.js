@@ -1,6 +1,6 @@
 //IMPORTACIONES
 const { valideCamposInControllerVendedores } = require("../Helpers/validation-Custom-Helper");
-const { Producto } = require("../Models");
+const { Producto, Pedido, usuarioMercado } = require("../Models");
 
 //PARA CREAR UN PRODUCTO
 const createProducto=async(req,res)=>{
@@ -94,7 +94,7 @@ const deleteProducto=async(req,res)=>{
     }
 
 }
-//PARA ACTUALIZAR UN PRODUCTO - FALTA ESTO
+//PARA ACTUALIZAR UN PRODUCTO 
 const updateProducto=async(req,res)=>{
 
     try {
@@ -127,6 +127,61 @@ const updateProducto=async(req,res)=>{
 
 
 }
+//PARA LISTAR LAS ORDENES DE COMPRA
+const OrdenesCompras=async(req,res)=>{
+
+    try {
+
+        //BUSCANDO TODOS LOS PEDIDOS CON EL USUARIO ID
+        const misPedidos=await Pedido.findAll({include:[{
+
+            model:usuarioMercado,
+            attributes:['Correo','Direccion_De_Envio']
+            
+        }],where:{
+
+            VendedorId:req.params.id
+
+            }});
+        //EN DADO CASO NO HAYA PEDIDOS
+        if (misPedidos.length==0) return res.json(`Usted no tiene pedidos al momento`).end();
+        //RESPONDIENDO LOS PEDIDOS
+        res.json({CantidadPedidos:misPedidos.length,misPedidos}).end();
+
+    } catch (error) {
+
+        //EN DADO CASO OCURRA UN ERROR RESPONDIENDOLO
+        res.status(500).json({'Problems':error.message}).end();
+          
+    }
+
+
+
+
+}
+//PARA CAMBIAR EL ESTADO DE UN PEDIDO
+const cambiarOrden=async(req,res)=>{
+
+   
+    try {
+
+        //DESESTRUCTURANDO EL ESTADO DEL PRODUCTO DEL OBJETO BODY
+        const {Estado}=req.body;
+        //ACTUALIZANDO EL PRODUCTO
+        await req.PedidoEncontrado.update({Estado});
+        //RESPONDIENDO QUE EL ESTADO FUE ACTUALIZADO EXITOSAMENTE
+        res.json(`Estado del producto cambiado a ${Estado}`).end();
+        
+    } catch (error) {
+
+         //EN DADO CASO OCURRA UN ERROR RESPONDIENDOLO
+         res.status(500).json({'Problems':error.message}).end();
+    
+        }
+
+
+
+}
 
 //EXPORTACIONES
 module.exports={
@@ -135,6 +190,8 @@ module.exports={
     getProducto,
     listProductos,
     deleteProducto,
-    updateProducto
+    updateProducto,
+    OrdenesCompras,
+    cambiarOrden
 
 }
