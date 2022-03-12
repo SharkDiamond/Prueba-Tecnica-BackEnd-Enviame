@@ -1,8 +1,7 @@
 //IMPORTACIONES
+const { Pedido, Entrega } = require("../Models");
 
-const Entrega = require("../Models/entrega-Model");
-
-
+//PARA CREAR UNA ENTREGA
 const crearEntrega=async(req,res)=>{
 
     try {
@@ -13,7 +12,7 @@ const crearEntrega=async(req,res)=>{
       await createEntrega.save();
       //DESESTRUCTURANDO DEL OBJETO createEntrega.dataValues
       const {foreing_order_id,sku_Producto,nombre_Producto,cantidad_Producto,direccion_origen,nombre_Cliente,tracking_number,estado,direccion_destino}=createEntrega.dataValues;
-
+      //OBJETO DE RESPUESTA
       const respuestaData={
 
         "pedido":{ foreing_order_id ,
@@ -41,25 +40,105 @@ const crearEntrega=async(req,res)=>{
 
 
     } catch (error) {
-        console.log(error.message);
+
+        //EN DADO CASO OCURRA UN ERROR
+        res.status(500).json(error).end();
+
     }
 
+}
+//PARA VER EL SEGUIMIENTO DE UN PRODUCTO
+const verSeguimientoEntrega=async(req,res)=>{
 
+  try {
 
+    //DESESTRUCTURANDO DEL OBJETO BODY
+    const {tracking_number}=req.body;
+    //BUSCANDO EL PRODUCTO
+    const findEntrega=await Entrega.findOne({
+      
+      include:[{
+
+        model:Pedido,
+        attributes:['estado','createdAt']
+        
+    }],
+      
+      where: {
+
+      'tracking_number': tracking_number
+    
+    }
+    
+    
+    });
+    //DESESTRUCTURANDO LOS DATOS DEL OBJETO dataValues
+    const {estado,createdAt,Pedido : PedidoData}=findEntrega.dataValues;
+    //RESPUESTA PERSONALIZADA
+    const Respuesta={
+
+      tracking_number,
+      "status": PedidoData.dataValues.estado,
+      "tracking": [{
+          "status": estado,
+          "date": createdAt
+        }]
+    }
+    //RESPONDIENDO CON LOS DATOS
+    res.json(Respuesta).end();
+
+    } catch (error) {
+     
+        //EN DADO CASO OCURRA UN ERROR
+        res.status(500).json(error).end();
+
+  }
+
+}
+//PARA OBTENER INFORMACION DE UNA ENTREGA
+const verEntrega=async(req,res)=>{
+
+    res.json({'Entrega':req.findEntrega}).end();
 
 }
 
-const verEntrega=async(req,res)=>{}
+const actualizarEntrega=async(req,res)=>{
 
-const actualizarEntrega=async(req,res)=>{}
+  try {
+    //ACTUALIZANDO LA ENTREGA
+    const updateEntrega=await req.findEntrega.update(req.body);
+    //RESPONDIENDO CON LA ENTREGA ACTUALIZADA
+    res.json({msg:"Entrega Actualizada",
+              updateEntrega}).end();
 
-const eliminarEntrega=async(req,res)=>{}
+  } catch (error) {
 
-const estadoEntrega=async(req,res)=>{
-
-
+      //EN DADO CASO OCURRA UN ERROR
+      res.status(500).json(error).end();
+  
+    }
 
 }
+
+const eliminarEntrega=async(req,res)=>{
+  
+  
+  try {
+    //ACTUALIZANDO LA ENTREGA
+    await req.findEntrega.update({'estado':"cancelado"});
+    //RESPONDIENDO CON LA ENTREGA ACTUALIZADA
+    res.json({msg:"Entrega Eliminada"}).end();
+
+  } catch (error) {
+
+      //EN DADO CASO OCURRA UN ERROR
+      res.status(500).json(error).end();
+  
+    }
+
+}
+
+
 
 //EXPORTACIONES
 module.exports={
@@ -67,7 +146,8 @@ module.exports={
   crearEntrega,
     verEntrega,
     actualizarEntrega,
-    eliminarEntrega
+    eliminarEntrega,
+    verSeguimientoEntrega
 
 
 };
