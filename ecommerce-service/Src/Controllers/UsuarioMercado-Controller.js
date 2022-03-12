@@ -66,19 +66,38 @@ const cancelCompra=async(req,res)=>{
         res.json({msg:"Pedido Cancelado",PedidoEncontrado}).end();
 
     } catch (error) {
-        console.log(error.message);
+
         //RESPONDIENDO EN DADO CASO OCURRA UN PROBLEMA
         res.status(500).json({Problems:error}).end();
         
     }
 
  }
+//OBTENER EL ESTADO DE UN PRODUCTO
+const verEstadoPedido=async(req,res)=>{
+
+    try {
+
+        //DESESTRUCTURANDO DEL OBJETO req.PedidoEncontrado.dataValues
+        const {VendedorId,UsuarioMercadoId,updatedAt,...data}=req.PedidoEncontrado.dataValues;
+        //RESPONDIENDO CON EL ESTADO DEL PEDIDO
+        res.json({"Pedido":data}).end(); 
+
+    } catch (error) {
+        
+        //RESPONDIENDO EN DADO CASO OCURRA UN PROBLEMA
+        res.status(500).json({Problems:error}).end();
+
+    }
+
+}
 
 //EXPORTACIONES
 module.exports={
 
     createUsuarioMercado,
     createCompra,
-    cancelCompra
+    cancelCompra,
+    verEstadoPedido
 
 }

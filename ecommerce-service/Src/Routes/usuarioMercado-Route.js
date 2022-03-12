@@ -1,8 +1,8 @@
 //IMPORTACIONES
 const {Router}=require('express');
 const {check}=require('express-validator');
-const { createUsuarioMercado, createCompra, cancelCompra } = require('../Controllers/UsuarioMercado-Controller');
-const { validateCompraForIdBody } = require('../Midlewares/PedidosCompra');
+const { createUsuarioMercado, createCompra, cancelCompra, verEstadoPedido } = require('../Controllers/UsuarioMercado-Controller');
+const { validateCompraForIdBody, validateCompraForIdBodyEstadoPedido } = require('../Midlewares/PedidosCompra');
 const { productExistForIdForBody } = require('../Midlewares/Productos');
 const { validateExistUsuarioMercardo, validateExistUsuarioMercardoForId,validateExistUsuarioMercardoForIdBody } = require('../Midlewares/Usuarios-Mercado');
 const { validationExpress } = require('../Midlewares/validationExpress');
@@ -29,5 +29,11 @@ route.post('/ComprarProductos',[validarToken,validateUserType('UsuarioInternet')
 route.put('/CancelarCompra',[validarToken,validarCamposPermitidos('UsuarioMercadoId','PedidoId','userType'),
                             validateUserType('UsuarioInternet'),
                             validateExistUsuarioMercardoForIdBody,validateCompraForIdBody],cancelCompra);
+//ESTADO ACTUAL PEDIDO
+route.get('/EstadoPedido',[validarToken,validateUserType('UsuarioInternet'),
+                           validarCamposPermitidos('UsuarioMercadoId','PedidoId','userType'),
+                           validateExistUsuarioMercardoForIdBody,
+                           validateCompraForIdBodyEstadoPedido],verEstadoPedido);
+
 //EXPORTANDO LAS RUTAS
 module.exports=route;

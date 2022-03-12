@@ -162,13 +162,17 @@ const OrdenesCompras=async(req,res)=>{
 //PARA CAMBIAR EL ESTADO DE UN PEDIDO
 const cambiarOrden=async(req,res)=>{
 
-   
     try {
 
         //DESESTRUCTURANDO EL ESTADO DEL PRODUCTO DEL OBJETO BODY
         const {Estado}=req.body;
         //ACTUALIZANDO EL PRODUCTO
         await req.PedidoEncontrado.update({Estado});
+        //NOTIFICANDO A LA API DE ENTREGA PARA QUE CREE LA ENTREGA SI ESTADO ES ENVIADO
+        if (Estado=='enviado') {
+            //consumiendo la api de entrega para crear la entrega
+        }
+
         //RESPONDIENDO QUE EL ESTADO FUE ACTUALIZADO EXITOSAMENTE
         res.json(`Estado del producto cambiado a ${Estado}`).end();
         
