@@ -1,4 +1,4 @@
-const Server=require('./Models/server-Model');
+const Server=require('./Models/Server-Model');
 require('dotenv').config();
 //INSTANCIANDO UN OBJETO DE LA CLASE SERVIDOR
 const server=new Server();

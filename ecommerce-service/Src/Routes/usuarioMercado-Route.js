@@ -13,11 +13,12 @@ const { validateUserType, validarCamposPermitidos } = require('../Midlewares/val
 const route=Router();
 //CREAR UN USUARIO MERCADO
 route.post('/Registrarse',[validarToken,
-                           validarCamposPermitidos('Correo','Direccion_De_Envio','userType'),
+                           validarCamposPermitidos('Correo','Direccion_De_Envio','userType','Nombre'),
                            validateUserType('UsuarioInternet'),
                            validateExistUsuarioMercardo,
                            check('Correo','El correo enviado no es valido!').isEmail(),
                            check('Direccion_De_Envio','La direccion fisica del usuario es necesaria').not().isEmpty(),
+                           check('Nombre','El nombre del usuario es necesario').not().isEmpty(),
                            validationExpress],createUsuarioMercado);
            
 //COMPRAR UN PRODUCTO

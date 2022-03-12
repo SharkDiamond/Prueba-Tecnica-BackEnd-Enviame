@@ -1,17 +1,17 @@
 //IMPORTACIONES
-const { usuarioMercado, Pedido, Producto } = require("../Models");
-
+const { usuarioMercado, Pedido, Producto, Vendedor } = require("../Models");
+const axios=require('axios');
 //FUNCION PARA CREAR EL USUARIO DE MERCADO
 const createUsuarioMercado=async(req,res)=>{
 
     try {
         
         const {userType,...data}=req.body;
-       //INSTANCIANDO EL NUEVO VENDEDOR CON LOS DATOS ENVIANDO POR EL BODY
+       //INSTANCIANDO EL NUEVO USUARIO MERCADO CON LOS DATOS ENVIANDO POR EL BODY
        const newUsuarioMercado= new usuarioMercado(data);
-       //GUARDANDO EL NUEVO VENDEDOR
+       //GUARDANDO EL NUEVO USUARIO MERCADO
        await newUsuarioMercado.save();
-       //RESPONDIENDO QUE EL PRODUCTO FUE CREADO EXITOSAMENTE
+       //RESPONDIENDO QUE EL USUARIO FUE CREADO
        res.status(201).json({msg:'Usuario Creado Exitosamente',newUsuarioMercado}).end();
 
     } catch (error) {
@@ -26,23 +26,44 @@ const createUsuarioMercado=async(req,res)=>{
 const createCompra=async(req,res)=>{
 
     try {
+
         //DESESTRUCTURANDO DEL OBJETO BODY
         const {userType,ProductId,...data}=req.body;
         //DESESTRUCTURANDO DEL OBJETO REQUEST
-        const {vendedorId,CantidadFinal,ProductoEncontrado}=req;
+        const {vendedorId,CantidadFinal,ProductoEncontrado,ClienteUsuarioMercado}=req;
         //ASIGNANDOLE AL SKU EL PRODUCT ID
         data.Sku=ProductId;
         //ASIGNANDO EL VENDEDOR ID
         data.VendedorId=vendedorId;
        //INSTANCIANDO EL NUEVO PEDIDO CON LOS DATOS ENVIANDO POR EL BODY
-       const newPedido= new Pedido(data);
-       //GUARDANDO EL NUEVO VENDEDOR Y CAMBIANDO LA CANTIDAD DEL PRODUCTO
-       await Promise.all([newPedido.save(),ProductoEncontrado.update({Cantidad:CantidadFinal})]);
-       //RESPONDIENDO QUE EL PRODUCTO FUE CREADO EXITOSAMENTE
-       res.status(201).json({msg:'Compra Realizada',newPedido}).end();
+       let newPedido= new Pedido(data);
+        //GUARDANDO GUARDANDO EL NUEVO PEDIDO Y ACTUALIZANDO EL STOCK DEL PRODUCTO
+       const [p,PE,vendedorEncontrado]= await Promise.all([newPedido.save(),ProductoEncontrado.update({Cantidad:CantidadFinal}),Vendedor.findByPk(vendedorId)]);
+        //DESESTRUCTURANDO LOS DATOS DEL PEDIDO CREADO
+        const {IdPedido,Cantidad}=newPedido;
+        //AGREGANDO AL OBJETO  newPedido.dataValues.NombreProducto el nombre del producto
+        newPedido.dataValues.NombreProducto=ProductoEncontrado.Nombre;
+        //CREANDO LA ENTREGA la direccion de entrega debe de estar en una variable de entorno
+       const createEntrega= await axios.post(`${process.env.DELIVERY_DIRECTION}/Entregas/crearEntrega`,{
+            "foreing_order_id":IdPedido,
+             "sku_Producto":ProductId,
+             "nombre_Producto":ProductoEncontrado.Nombre,
+             "cantidad_Producto":Cantidad,
+            "direccion_origen":vendedorEncontrado.dataValues.DireccionAlmacen,
+            "direccion_destino":ClienteUsuarioMercado.Direccion_De_Envio,
+            "nombre_Cliente":ClienteUsuarioMercado.Nombre,
+            "estado":'LISTO_PARA_RECOLECCIÓN'
+          },
+          {
+            headers: {
+              token: req.headers.token
+            },
+          });
+       //RESPONDIENDO QUE LA COMPRA FUE REALIZADA EXITOSAMENTE
+       res.status(201).json({msg:'Compra Realizada','Pedido':newPedido,'Entrega':createEntrega.data.Entrega}).end();
 
     } catch (error) {
-       
+
         //RESPONDIENDO EN DADO CASO OCURRA UN PROBLEMA
         res.status(500).json({Problems:error}).end();
 

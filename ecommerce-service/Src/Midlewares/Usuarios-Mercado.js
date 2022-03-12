@@ -72,6 +72,8 @@ const validateExistUsuarioMercardoForIdBody=async(req,res,next)=>{
         const UsuarioEncontradoForId=await usuarioMercado.findByPk(UsuarioMercadoId);
         //EN DADO CASO QUE NO EXISTA UN USUARIO CON EL ID
         if (!UsuarioEncontradoForId || !UsuarioEncontradoForId.dataValues.Estado) return res.status(404).json({Problems:`No existe un usuario con el id=${UsuarioMercadoId}`}).end();
+        //AGREGANDO AL OBJETO REQUEST LA DIRECCION DEL USUARIO MERCADO
+        req.ClienteUsuarioMercado=UsuarioEncontradoForId.dataValues;
         //SIGUIENDO YA QUE TODO SALIO BIEN
         next();
 

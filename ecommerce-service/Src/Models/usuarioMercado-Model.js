@@ -31,6 +31,12 @@ const usuarioMercado=db.define('mercadoUsuarios',{
             type:BOOLEAN
 
 
+        },
+
+        Nombre:{
+
+            type:STRING
+
         }
 
 });
