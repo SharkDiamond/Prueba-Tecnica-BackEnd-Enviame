@@ -100,5 +100,24 @@ const validateEntregaForId=async(req,res,next)=>{
 
 }
 
+//PARA VALIDAR LOS CAMBIOS DE ESTADO
+const validateCambioEstado=async(req,res,next)=>{
+    
+    //DESESTRUCUTURANDO EL OBJETO dataValues
+    const {estado : EstadoActual}=req.findEntrega.dataValues;
+    //DESESTRUCTURANDO EL OBJETO BODY
+    const {estado}=req.body;
+    //VERIFICANDO EL TIPO DE CAMBIO DE ESTADO SEA EL CORRECTO
+    if (!['LISTO_PARA_RECOLECCIÓN','EN_ORIGIN','EN_RUTA_DE_ENTREGA'].includes(estado)) return res.status(400).json(`El tipo de estado enviado no esta permitido`);
+    //EN DADO CASO SEA UN CAMBIO DE ESTADO QUE NO ESTA PERMITIDO
+    if ( (EstadoActual=='LISTO_PARA_RECOLECCIÓN' && estado!='EN_ORIGIN') || (EstadoActual=='EN_ORIGIN' && estado!='EN_RUTA_DE_ENTREGA') ) {
+        
+        return res.status(400).json(`No se puede cambiar el estado actual de la entrega de ${EstadoActual} a ${estado}`).end();
+    }
+    //SIGUIENDO YA QUE TODO SALIO BIEN
+    next();
+
+}
+
 //EXPORTACIONES
-module.exports={validateExistforeing_order_id,validarCamposPermitidos,validateExistEntregaConforeing_order_id,validateEntregaForId};
+module.exports={validateExistforeing_order_id,validarCamposPermitidos,validateExistEntregaConforeing_order_id,validateEntregaForId,validateCambioEstado};

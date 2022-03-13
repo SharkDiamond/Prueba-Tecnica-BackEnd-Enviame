@@ -1,7 +1,7 @@
 //IMPORTACIONES
 const { valideCamposInControllerVendedores } = require("../Helpers/validation-Custom-Helper");
-const { Producto, Pedido, usuarioMercado } = require("../Models");
-
+const { Producto, Pedido, usuarioMercado, Entrega } = require("../Models");
+const axios=require('axios');
 //PARA CREAR UN PRODUCTO
 const createProducto=async(req,res)=>{
 
@@ -163,16 +163,33 @@ const OrdenesCompras=async(req,res)=>{
 const cambiarOrden=async(req,res)=>{
 
     try {
-
         //DESESTRUCTURANDO EL ESTADO DEL PRODUCTO DEL OBJETO BODY
         const {Estado}=req.body;
         //ACTUALIZANDO EL PRODUCTO
         await req.PedidoEncontrado.update({Estado});
-        //NOTIFICANDO A LA API DE ENTREGA PARA QUE CREE LA ENTREGA SI ESTADO ES ENVIADO
-        if (Estado=='enviado') {
-            //consumiendo la api de entrega para crear la entrega
-        }
+        //OBJETO PARA LOS ESTADOS
+        const estadosEntrega={
 
+            confirmado:"EN_ORIGIN",
+            enviado:"EN_RUTA_DE_ENTREGA"
+
+        }
+        //BUSCANDO UNA ENTREGA CON EL PEDIDIO ID
+        const findEntrega=await Entrega.findOne({where: {
+            foreing_order_id:req.body.PedidoId
+            }});
+        //NOTIFICANDO A LA API DE ENTREGA PARA QUE CREE LA ENTREGA SI ESTADO ES ENVIADO
+        if (Estado=='confirmado' || Estado=='enviado') {
+
+            await axios.put(`${process.env.DELIVERY_DIRECTION}/Entregas/CambiarEstadoEntrega/${findEntrega.dataValues.tracking_number}`,{'estado':estadosEntrega[Estado]},
+            {
+                headers: {
+                  token: req.headers.token
+                },
+              }
+            );
+
+        }
         //RESPONDIENDO QUE EL ESTADO FUE ACTUALIZADO EXITOSAMENTE
         res.json(`Estado del producto cambiado a ${Estado}`).end();
         
@@ -182,8 +199,6 @@ const cambiarOrden=async(req,res)=>{
          res.status(500).json({'Problems':error.message}).end();
     
         }
-
-
 
 }
 

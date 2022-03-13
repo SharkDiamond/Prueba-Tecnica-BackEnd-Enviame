@@ -3,6 +3,9 @@ const Vendedor = require("./vendedor-Model");
 const Producto = require("./producto-Model");
 const usuarioMercado = require("./usuarioMercado-Model");
 const Pedido = require("./pedidos-Model");
+const Entrega = require("./entrega-Model");
+
+
 
 
 Vendedor.hasMany(Producto,{foreignKey:"IdVendedor"});
@@ -25,6 +28,7 @@ module.exports={
     Vendedor,
     Producto,
     usuarioMercado,
-    Pedido
+    Pedido,
+    Entrega
 
 }

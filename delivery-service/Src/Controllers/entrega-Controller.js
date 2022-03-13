@@ -101,7 +101,7 @@ const verEntrega=async(req,res)=>{
     res.json({'Entrega':req.findEntrega}).end();
 
 }
-
+//PARA ACTUALIZAR LOS DATOS DE LA ENTREGA
 const actualizarEntrega=async(req,res)=>{
 
   try {
@@ -119,7 +119,7 @@ const actualizarEntrega=async(req,res)=>{
     }
 
 }
-
+//PARA ELIMINAR LA ENTREGA
 const eliminarEntrega=async(req,res)=>{
   
   
@@ -137,7 +137,28 @@ const eliminarEntrega=async(req,res)=>{
     }
 
 }
+//PARA CAMBIAR EL ESTADO DE LA ENTREGA
+const cambiarEstado=async(req,res)=>{
 
+  try {
+
+        //DESESTRUCTURANDO EL ESTADO DEL OBJETO BODY
+        const {estado}=req.body;
+        //ACTUALIZANDO LA ENTREGA
+        await req.findEntrega.update({estado});
+        //RESPONDIENDO CON LA ENTREGA ACTUALIZADA
+        res.json({msg:`Estado De la entrega cambiado a ${estado}`}).end();
+
+  } catch (error) {
+
+       //EN DADO CASO OCURRA UN ERROR
+      res.status(500).json(error).end();
+
+  }
+
+
+
+}
 
 
 //EXPORTACIONES
@@ -147,7 +168,8 @@ module.exports={
     verEntrega,
     actualizarEntrega,
     eliminarEntrega,
-    verSeguimientoEntrega
+    verSeguimientoEntrega,
+    cambiarEstado
 
 
 };

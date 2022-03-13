@@ -1,8 +1,8 @@
 //IMPORTACIONES
 const {Router}=require('express');
 const {check}=require('express-validator');
-const { crearEntrega, verSeguimientoEntrega, verEntrega, actualizarEntrega, eliminarEntrega } = require('../Controllers/entrega-Controller');
-const { validateExistforeing_order_id,validarCamposPermitidos, validateExistEntregaConforeing_order_id, validateEntregaForId } = require('../Midlewares/valiadteEntrega');
+const { crearEntrega, verSeguimientoEntrega, verEntrega, actualizarEntrega, eliminarEntrega, cambiarEstado } = require('../Controllers/entrega-Controller');
+const { validateExistforeing_order_id,validarCamposPermitidos, validateExistEntregaConforeing_order_id, validateEntregaForId, validateCambioEstado } = require('../Midlewares/valiadteEntrega');
 const { validationExpress } = require('../Midlewares/validationExpress');
 const validarToken = require('../Midlewares/validationJWT');
 //CREANDO EL ROUTE
@@ -24,6 +24,9 @@ route.get('/seguimientoEntrega',[validarToken,validarCamposPermitidos("foreing_o
 route.put('/actualizarEntrega/:tracking_number',[validarToken,validarCamposPermitidos("nombre_Producto","sku_Producto","direccion_origen","direccion_destino"),validateEntregaForId],actualizarEntrega);
 //ELIMINAR UNA ENTREGA
 route.delete('/EliminarEntrega/:tracking_number',[validarToken,validateEntregaForId],eliminarEntrega);
+//CAMBIAR ESTADO ENTREGA
+route.put('/CambiarEstadoEntrega/:tracking_number',[validarToken,validarCamposPermitidos("estado"),validateEntregaForId,validateCambioEstado],cambiarEstado);
+
 
 //EXPORTANDO LAS RUTAS
 module.exports=route;
