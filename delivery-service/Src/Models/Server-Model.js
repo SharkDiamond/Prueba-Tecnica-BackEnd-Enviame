@@ -2,6 +2,7 @@
 const express=require('express');
 const cors=require('cors');
 const db = require('../Database/ConectarDB');
+const { updateEstateTime } = require('../Helpers/updateEstados');
 
 class Server{
 
@@ -16,9 +17,10 @@ class Server{
             'Entregas':'/Entregas'
 
         };
-
+        //CONECTANDO CON LA BASE DE DATOS
         this.ConectarDb();
-
+        //FUNCION QUE CAMBIA LOS ESTADOS DE LOS PEDIDOS CADA 30 SG
+        this.cambioEstadoPedidos();
         //CARGANDO LAS RUTAS
         this.Routes();
         //PUERTO
@@ -41,6 +43,15 @@ class Server{
       }
 
     }
+
+    async cambioEstadoPedidos(){
+
+       await updateEstateTime();
+
+
+    }
+
+
 
     Routes(){
         
