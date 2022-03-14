@@ -2,10 +2,10 @@
 const {Sequelize}=require('sequelize');
 
 //CREANDO LA CONEXION CON LA BASE DE DATOS
-const db= new Sequelize('ECOMMERCE_MYSQL','laptop2','!0sn2o2oit3o3O',{
+const db= new Sequelize(process.env.SQL_ALCHEMY_DATABASE,process.env.MYSQL_USER,'!0sn2o2oit3o3O',{
 
-    host:"172.26.9.115",
-    dialect:"mysql",
+    host:process.env.SQL_ALCHEMY_HOST,
+    dialect:"mysql", 
     logging:false
 
 });

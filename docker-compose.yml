@@ -1,0 +1,75 @@
+version: "3"
+
+
+services:
+  
+  #ecommerce-service block
+  ecommerce-app:
+  
+    build: ${ECOMMERCE_SERVICE_PATH}/.
+  
+    container_name: ${ECOMMERCE_SERVICE_NAME}
+  
+    env_file:
+      - .env
+    
+    environment:
+      - SQL_ALCHEMY_HOST=${MYSQL_NAME}
+      - SQL_ALCHEMY_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+    volumes:
+      - ${ECOMMERCE_SERVICE_PATH}/Src:/app/src
+      
+    ports:
+      - ${ECOMMERCE_APP_PORT}:8000
+    
+    depends_on:
+      - database-mysql
+  #DATABASE BLOCK
+  database-mysql:
+  
+    build: ${DATABASE_SERVICE_PATH}/.
+
+    container_name: ${MYSQL_NAME}
+
+    restart: always
+
+    env_file:
+      - .env
+
+    environment:
+
+      - MYSQL_ROOT_PASSWORD=!0sn2o2oit3o3O
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=!0sn2o2oit3o3O
+
+    ports:
+      - ${MYSQL_PORT}:3306
+  
+    command: 
+      - --default-authentication-plugin=mysql_native_password
+  #delivery-service block
+  delivery-app:
+  
+    build: ${DELIVERY_SERVICE_PATH}/.
+  
+    container_name: ${DELIVERY_SERVICE_NAME}
+  
+    env_file:
+      - .env
+    
+    environment:
+      - SQL_ALCHEMY_HOST=${MYSQL_NAME}
+      - SQL_ALCHEMY_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+
+    volumes:
+      - ${DELIVERY_SERVICE_PATH}/Src:/app/src
+      - ${DELIVERY_SERVICE_PATH}/tests:/app/tests
+      
+    ports:
+      - ${DELIVERY_APP_PORT}:8001
+    
+    depends_on:
+      - database-mysql
