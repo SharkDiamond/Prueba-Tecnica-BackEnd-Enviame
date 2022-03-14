@@ -1,0 +1,1054 @@
+{
+	"info": {
+		"_postman_id": "9af20f99-b69f-4dd9-a976-a6f67c0d1366",
+		"name": "Entrevista Tecnica",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ecommerce microservice",
+			"item": [
+				{
+					"name": "Administrador De Mercado",
+					"item": [
+						{
+							"name": "Obtener Ordenes",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIxNTQ2NCwiZXhwIjoxNjQ3MjE5MDY0fQ.R6dJAoE3fHG_QHCQmNgcV9hDXd84cyEfrn7PakHdvkk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n\"userType\":\"Administrador_Mercado\"\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/AdministradorMercado/ObtenerPedidosMercardo",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"AdministradorMercado",
+										"ObtenerPedidosMercardo"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								},
+								"description": "Este end-point funciona para listar todas las ordenes del mercado, solo es necesario mandar el userType en el body el cual es \"Administrador_Mercado y el token en los headers, ejemplo :\n\nObjeto Body:\n\n{\n\n\"userType\":\"Administrador_Mercado\"\n\n}\n\nRespuesta:\n\n{  \n\"Cantidad\": 36,  \n\"Pedidos\": \\[  \n{  \n\"IdPedido\": 5,  \n\"Sku\": 1,  \n\"VendedorId\": 4,  \n\"UsuarioMercadoId\": 1,  \n\"Estado\": \"enviado\",  \n\"Cantidad\": 25,  \n\"createdAt\": \"2022-03-11T20:47:19.000Z\",  \n\"updatedAt\": \"2022-03-11T21:22:46.000Z\"  \n},  \n{  \n\"IdPedido\": 6,  \n\"Sku\": 1,  \n\"VendedorId\": 4,  \n\"UsuarioMercadoId\": 1,  \n\"Estado\": \"Cancelado Por Usuario De Mercado\",  \n\"Cantidad\": 5,  \n\"createdAt\": \"2022-03-11T22:22:09.000Z\",  \n\"updatedAt\": \"2022-03-11T22:36:05.000Z\"  \n},  \n{  \n\"IdPedido\": 7,  \n\"Sku\": 1,  \n\"VendedorId\": 4,  \n\"UsuarioMercadoId\": 1,  \n\"Estado\": \"cancelado Por Administrador De Mercado\",  \n\"Cantidad\": 10,  \n\"createdAt\": \"2022-03-11T22:46:07.000Z\",  \n\"updatedAt\": \"2022-03-11T22:46:32.000Z\"  \n}  \n\\]\n\n}"
+							},
+							"response": []
+						},
+						{
+							"name": "Crear Vendedor",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIxNTQ2NCwiZXhwIjoxNjQ3MjE5MDY0fQ.R6dJAoE3fHG_QHCQmNgcV9hDXd84cyEfrn7PakHdvkk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\"userType\":\"Administrador_Mercado\",\n\"Nombre\":\"Gabriel\",\n\"Descripcion\":\"Vendedor de zapatos\",\n\"Username\":\"garispe12345\",\n\"DireccionAlmacen\":\"Carrera 15-12\"\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/AdministradorMercado/crearVendedor",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"AdministradorMercado",
+										"crearVendedor"
+									]
+								},
+								"description": "End-Point que crea un vendedor nuevo, en el cual es necesario enviar los siguientes parametros userType,Nombre,Descripcion,Username,DireccionAlmacen y por supuesto el token en los headers  \nejemplo:\n\nObjeto Body:\n\n{\n\"userType\":\"Administrador_Mercado\",\n\"Nombre\":\"Gabriel\",\n\"Descripcion\":\"Vendedor de zapatos\",\n\"Username\":\"garispe12345\",\n\"DireccionAlmacen\":\"Carrera 15-12\"\n\n}\n\n\nRespuesta:\n\n{  \n\"msg\": \"Usuario Vendedor Creado!\",  \n\"newVendedor\": {  \n\"IdVendedor\": 7,  \n\"Nombre\": \"Gabriel\",  \n\"Descripcion\": \"Vendedor de zapatos\",  \n\"Username\": \"garispe12345\",  \n\"DireccionAlmacen\": \"Carrera 15-12\",  \n\"updatedAt\": \"2022-03-14T00:03:04.391Z\",  \n\"createdAt\": \"2022-03-14T00:03:04.391Z\"  \n}  \n}"
+							},
+							"response": []
+						},
+						{
+							"name": "Actualizar Vendedor",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIxNTQ2NCwiZXhwIjoxNjQ3MjE5MDY0fQ.R6dJAoE3fHG_QHCQmNgcV9hDXd84cyEfrn7PakHdvkk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n\"Nombre\":\"Arispe\",\r\n\"userType\":\"Administrador_Mercado\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/AdministradorMercado/actualizarVendedor/7",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"AdministradorMercado",
+										"actualizarVendedor",
+										"7"
+									]
+								},
+								"description": "Este end-point permite actualizar la informacion de un usuario vendedor tales como Username, Nombre, DireccionAlmacen y la descripcion. Basta con enviar la informacion que se quiere actualizar en el objeto body, adicional es estrictamente necesario mandar el id de vendedor el token por los headers y el userType el cual puede ser \"Administrador_Mercado\" o \"Vendedor\" en el body en el end-point por ejemplo:\n\n[http://localhost:8000/AdministradorMercado/actualizarVendedor/userid](http://localhost:8000/AdministradorMercado/actualizarVendedor/userid)\n\nSi quiero actualizar el nombre del usuario vendedor que tiene el user id 7\n\n[http://localhost:8000/AdministradorMercado/actualizarVendedor/7](http://localhost:8000/AdministradorMercado/actualizarVendedor/7)\n\nObjeto Body:  \n{\n\n\"Nombre\":\"Arispe\",  \n\"userType\":\"Administrador_Mercado\"\n\n}\n\nLa respuesta seria la siguiente:\n\n{  \n\"msg\": \"Usuario Actualizado Exitosamente\",  \n\"usuarioActualizado\": {  \n\"IdVendedor\": 7,  \n\"Nombre\": \"Arispe\",  \n\"Username\": \"garispe12345\",  \n\"Descripcion\": \"Vendedor de zapatos\",  \n\"Estado\": true,  \n\"DireccionAlmacen\": \"Carrera 15-12\",  \n\"createdAt\": \"2022-03-14T00:03:04.000Z\",  \n\"updatedAt\": \"2022-03-14T00:16:14.891Z\"  \n}  \n}"
+							},
+							"response": []
+						},
+						{
+							"name": "Listar Vendedores",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIxOTcwMywiZXhwIjoxNjQ3MjIzMzAzfQ.DyeDLmZ-DW_ozRRSFH2zExNJfFCREto2vWp_2kNEWsw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n\"all\":true,\r\n\"userType\":\"Administrador_Mercado\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/AdministradorMercado/listVendedores",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"AdministradorMercado",
+										"listVendedores"
+									]
+								},
+								"description": "Este end-point funciona para listar todos los usuarios de los vendedores actualmente del sistema, es necesario enviar el token en el headers y en el objeto body enviar el userType y all, all \"todos\" es de valor booleano si se pasa true devolvera todos los usuarios vendedores que tengan tanto el estado en true \"activo\" o false \"eliminado\" desactivado:\n\nObjeto Body:\n\n{\n\"all\":true,\n\"userType\":\"Administrador_Mercado\"\n}\n\n  \n\nEjemplo de respuesta:\n\n{  \n\"Cantidad\": 4,  \n\"Vendedores\": \\[  \n{  \n\"IdVendedor\": 4,  \n\"Nombre\": \"TEST123\",  \n\"Username\": \"FF2\",  \n\"Descripcion\": \"sdadasd\",  \n\"Estado\": true,  \n\"DireccionAlmacen\": \"\"calle carvajal 87-21\"\",  \n\"createdAt\": \"2022-03-09T04:11:34.000Z\",  \n\"updatedAt\": \"2022-03-09T04:30:41.000Z\"  \n},  \n{  \n\"IdVendedor\": 5,  \n\"Nombre\": \"Gabriel\",  \n\"Username\": \"garispe123\",  \n\"Descripcion\": \"Vendedor de zapatos\",  \n\"Estado\": true,  \n\"DireccionAlmacen\": \"Carrera 15-12\",  \n\"createdAt\": \"2022-03-13T23:56:27.000Z\",  \n\"updatedAt\": \"2022-03-13T23:56:27.000Z\"  \n},  \n{  \n\"IdVendedor\": 6,  \n\"Nombre\": \"Gabriel\",  \n\"Username\": \"garispe1234\",  \n\"Descripcion\": \"Vendedor de zapatos\",  \n\"Estado\": true,  \n\"DireccionAlmacen\": \"Carrera 15-12\",  \n\"createdAt\": \"2022-03-14T00:02:08.000Z\",  \n\"updatedAt\": \"2022-03-14T00:02:08.000Z\"  \n},  \n{  \n\"IdVendedor\": 7,  \n\"Nombre\": \"Arispe\",  \n\"Username\": \"garispe12345\",  \n\"Descripcion\": \"Vendedor de zapatos\",  \n\"Estado\": true,  \n\"DireccionAlmacen\": \"Carrera 15-12\",  \n\"createdAt\": \"2022-03-14T00:03:04.000Z\",  \n\"updatedAt\": \"2022-03-14T00:16:14.000Z\"  \n}  \n\\]  \n}"
+							},
+							"response": []
+						},
+						{
+							"name": "Eliminar Vendedor",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIxNTQ2NCwiZXhwIjoxNjQ3MjE5MDY0fQ.R6dJAoE3fHG_QHCQmNgcV9hDXd84cyEfrn7PakHdvkk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n\"userType\":\"Administrador_Mercado\"\r\n\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/AdministradorMercado/EliminarVendedor/7",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"AdministradorMercado",
+										"EliminarVendedor",
+										"7"
+									]
+								},
+								"description": "Este end-point sirve para eliminar un usuario vendedor \"cambiar su estado a false\" cabe destacar que hice las eliminaciones de esta manera para no perder las integridades referenciales. Para eliminar un usuario es necesario enviar el token en los headers enviar el userType el cual es Administrador_Mercado y el vendedor id el cual se va a eliminar en el end-point ejemplo:\n\n[http://localhost:8000/AdministradorMercado/EliminarVendedor/vendedorId](http://localhost:8000/AdministradorMercado/EliminarVendedor/vendedorId)\n\nSe quiere eliminar el vendedor que tiene el id 7\n\nObjeto Body:\n\n{\n\n\"userType\":\"Administrador_Mercado\"\n\n\n}\n\n\n[http://localhost:8000/AdministradorMercado/EliminarVendedor/7](http://localhost:8000/AdministradorMercado/EliminarVendedor/7)\n\nla respuesta seria:\n\n{  \n\"msg\": \"Usuario eliminado\",  \n\"Vendedor\": {  \n\"IdVendedor\": 7,  \n\"Nombre\": \"Arispe\",  \n\"Username\": \"garispe12345\",  \n\"Descripcion\": \"Vendedor de zapatos\",  \n\"Estado\": false,  \n\"DireccionAlmacen\": \"Carrera 15-12\",  \n\"createdAt\": \"2022-03-14T00:03:04.000Z\",  \n\"updatedAt\": \"2022-03-14T00:16:14.000Z\"  \n}  \n}"
+							},
+							"response": []
+						},
+						{
+							"name": "Cancelar Pedido",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIxNTQ2NCwiZXhwIjoxNjQ3MjE5MDY0fQ.R6dJAoE3fHG_QHCQmNgcV9hDXd84cyEfrn7PakHdvkk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n\"userType\":\"Administrador_Mercado\",\n\"PedidoId\":9\n\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/AdministradorMercado/CancelarPedido",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"AdministradorMercado",
+										"CancelarPedido"
+									]
+								},
+								"description": "End-point que sirve para cancelar un pedido determinado, es necesario enviar el userType el cual es \"Administrador_Mercado\" el PedidoId en el objeto body y el token en los headers ejemplo:\n\nSe quiere eliminar el pedido que tiene el Id 9\n\nObjeto Body:\n\n{\n\n\"userType\":\"Administrador_Mercado\",  \n\"PedidoId\":9  \n}\n\nRespuesta:\n\n{\n    \"msg\": \"Pedido Cancelado\",\n    \"PedidoCancelado\": {\n        \"IdPedido\": 9,\n        \"Sku\": 1,\n        \"VendedorId\": 4,\n        \"UsuarioMercadoId\": 1,\n        \"Estado\": \"cancelado Por Administrador De Mercado\",\n        \"Cantidad\": 10,\n        \"createdAt\": \"2022-03-12T15:11:24.000Z\",\n        \"updatedAt\": \"2022-03-14T00:48:08.352Z\"\n    }\n}"
+							},
+							"response": []
+						}
+					],
+					"description": "En esta carpeta estan todos los end-points que el administrador del mercado puede llegar a hacer uso."
+				},
+				{
+					"name": "Usuario Vendedor",
+					"item": [
+						{
+							"name": "Productos",
+							"item": [
+								{
+									"name": "Crear Producto",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIxOTcwMywiZXhwIjoxNjQ3MjIzMzAzfQ.DyeDLmZ-DW_ozRRSFH2zExNJfFCREto2vWp_2kNEWsw",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\n\"Nombre\":\"Caucho\",\n\"Descripcion\":\"Caucho delantero de bici\",\n\"Cantidad\":30,\n\"userType\":\"Vendedor\"\n\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8000/Vendedor/crearProducto/4",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"Vendedor",
+												"crearProducto",
+												"4"
+											]
+										},
+										"description": "End-Point para crear un producto determinado en el cual es necesario enviar el vendedor id por el end-point, ademas enviar por el objeto body el Nombre, la Descripcion, la Cantidad y el userType \"Vendedor\" y por ultimo el token por los headers por ejemplo:\n\n[http://localhost:8000/Vendedor/crearProducto/VendedorId](http://localhost:8000/Vendedor/crearProducto/VendedorId)\n\nSe quiere crear el producto Caucho el cual es del vendedor con el id 4:\n\n[http://localhost:8000/Vendedor/crearProducto/4](http://localhost:8000/Vendedor/crearProducto/4)\n\nObjeto Body:\n\n{\n\n\"Nombre\":\"Caucho\",  \n\"Descripcion\":\"Caucho delantero de bici\",  \n\"Cantidad\":30,  \n\"userType\":\"Vendedor\"\n\n}  \nRespuesta:\n\n{  \n\"msg\": \"Producto Creado Exitosamente\",  \n\"newProducto\": {  \n\"IdProducto\": 5,  \n\"Nombre\": \"Caucho\",  \n\"Descripcion\": \"Caucho delantero de bici\",  \n\"Cantidad\": 30,  \n\"IdVendedor\": \"4\",  \n\"updatedAt\": \"2022-03-14T01:33:51.933Z\",  \n\"createdAt\": \"2022-03-14T01:33:51.933Z\"  \n}  \n}"
+									},
+									"response": []
+								},
+								{
+									"name": "Obtener Producto",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIxOTcwMywiZXhwIjoxNjQ3MjIzMzAzfQ.DyeDLmZ-DW_ozRRSFH2zExNJfFCREto2vWp_2kNEWsw",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\n\"userType\":\"Vendedor\"\n\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8000/Vendedor/ObtenerProducto/5",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"Vendedor",
+												"ObtenerProducto",
+												"5"
+											]
+										},
+										"description": "End-Point para obtener informacion de un producto determinado en el cual es necesario enviar el podructo id por el end-point el usertype por el body y el token en los headers ejemplo:\n\nhttp://localhost:8000/Vendedor/ObtenerProducto/idProducto\n\nSe quiere obtener informacion del producto con el id 5.\n\nhttp://localhost:8000/Vendedor/ObtenerProducto/5\n\nObjeto Body:\n\n{\n\n\"userType\":\"Vendedor\"\n\n}\n\nRespuesta:\n\n{\n    \"Producto\": {\n        \"IdProducto\": 5,\n        \"IdVendedor\": 4,\n        \"Nombre\": \"Caucho\",\n        \"Cantidad\": 30,\n        \"Descripcion\": \"Caucho delantero de bici\",\n        \"Estado\": true,\n        \"createdAt\": \"2022-03-14T01:33:51.000Z\",\n        \"updatedAt\": \"2022-03-14T01:33:51.000Z\"\n    }\n}"
+									},
+									"response": []
+								},
+								{
+									"name": "Listar Productos",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIyMzQ3MywiZXhwIjoxNjQ3MjI3MDczfQ.oLkdk4VdBd6hEd3Wf5a2rjuxdJJtwjyF7yqkny-lc8g",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\n\"userType\":\"Vendedor\"\n\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8000/Vendedor/listProducto/4",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"Vendedor",
+												"listProducto",
+												"4"
+											],
+											"query": [
+												{
+													"key": "token",
+													"value": "",
+													"disabled": true
+												}
+											]
+										},
+										"description": "End-Point para obtener todos los productos creados de un determinado usuario en el cual es necesario el id del usuario vendedor en el end-point el userType en el body el cual es \"Vendedor\" y el token en los headers ejemplo:\n\n\nhttp://localhost:8000/Vendedor/listProducto/idVendedor\n\nSe quiere recuperar la lista de productos del usuario con el id 4:\n\nhttp://localhost:8000/Vendedor/listProducto/4\n\nObjeto Body:\n\n{\n\n\"userType\":\"Vendedor\"\n\n}\n\nRespuesta:\n\n{\n    \"Cantidad\": 5,\n    \"Productos\": [\n        {\n            \"IdProducto\": 1,\n            \"IdVendedor\": 4,\n            \"Nombre\": \"Papas\",\n            \"Cantidad\": 10,\n            \"Descripcion\": \"Papas para hervir si senor\",\n            \"Estado\": true,\n            \"createdAt\": \"2022-03-09T19:44:19.000Z\",\n            \"updatedAt\": \"2022-03-14T00:48:08.000Z\"\n        },\n        {\n            \"IdProducto\": 2,\n            \"IdVendedor\": 4,\n            \"Nombre\": \"Papitas\",\n            \"Cantidad\": 0,\n            \"Descripcion\": \"Papas para hervir si senor\",\n            \"Estado\": true,\n            \"createdAt\": \"2022-03-09T19:54:50.000Z\",\n            \"updatedAt\": \"2022-03-12T16:18:06.000Z\"\n        },\n        {\n            \"IdProducto\": 3,\n            \"IdVendedor\": 4,\n            \"Nombre\": \"Picante\",\n            \"Cantidad\": 0,\n            \"Descripcion\": \"salsa picante\",\n            \"Estado\": true,\n            \"createdAt\": \"2022-03-10T16:53:44.000Z\",\n            \"updatedAt\": \"2022-03-12T16:30:13.000Z\"\n        },\n        {\n            \"IdProducto\": 4,\n            \"IdVendedor\": 4,\n            \"Nombre\": \"Salsa de tomate\",\n            \"Cantidad\": 9,\n            \"Descripcion\": \"salsa para pasta\",\n            \"Estado\": true,\n            \"createdAt\": \"2022-03-12T16:31:28.000Z\",\n            \"updatedAt\": \"2022-03-12T17:06:57.000Z\"\n        },\n        {\n            \"IdProducto\": 5,\n            \"IdVendedor\": 4,\n            \"Nombre\": \"Caucho\",\n            \"Cantidad\": 30,\n            \"Descripcion\": \"Caucho delantero de bici\",\n            \"Estado\": true,\n            \"createdAt\": \"2022-03-14T01:33:51.000Z\",\n            \"updatedAt\": \"2022-03-14T01:33:51.000Z\"\n        }\n    ]\n}"
+									},
+									"response": []
+								},
+								{
+									"name": "Actualizar Producto",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIyMjgxMywiZXhwIjoxNjQ3MjI2NDEzfQ.OA_MyrEY6pd0rbVy9nMAO__qR4B1xZmQ0MDZH-Gpa0k",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n\"Nombre\":\"Roscas\",\r\n\"userType\":\"Vendedor\"\r\n\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8000/Vendedor/actualizarProducto/1",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"Vendedor",
+												"actualizarProducto",
+												"1"
+											]
+										},
+										"description": "End-Point para actulizar un campo de un producto tales como Nombre,Cantidad,Descripcion es necesario enviar el userType el cual es Vendedor, ademas de los campos a actualizar en el objeto body el podructo id en el end-point y el token en los headers ejemplo:\n\n[http://localhost:8000/Vendedor/actualizarProducto/productoId](http://localhost:8000/Vendedor/actualizarProducto/productoId)\n\nSe quiere cambiar el nombre del producto con el id 1 a Roscas:\n\n[http://localhost:8000/Vendedor/actualizarProducto/1](http://localhost:8000/Vendedor/actualizarProducto/1)\n\nObjeto Body:\n\n{\n\n\"Nombre\":\"Roscas\",  \n\"userType\":\"Vendedor\"\n\n}\n\nRespuesta:\n\n{  \n\"msg\": \"Producto Actualizado Exitosamente\",  \n\"ProductoActualizado\": {  \n\"IdProducto\": 1,  \n\"IdVendedor\": 4,  \n\"Nombre\": \"Roscas\",  \n\"Cantidad\": 10,  \n\"Descripcion\": \"Papas para hervir si senor\",  \n\"Estado\": true,  \n\"createdAt\": \"2022-03-09T19:44:19.000Z\",  \n\"updatedAt\": \"2022-03-14T02:02:41.102Z\"  \n}  \n}"
+									},
+									"response": []
+								},
+								{
+									"name": "Eliminar un producto",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIxOTcwMywiZXhwIjoxNjQ3MjIzMzAzfQ.DyeDLmZ-DW_ozRRSFH2zExNJfFCREto2vWp_2kNEWsw",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\n\"userType\":\"Vendedor\"\n\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8000/Vendedor/EliminarProducto/5",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"Vendedor",
+												"EliminarProducto",
+												"5"
+											]
+										},
+										"description": "End-Point que sirve para eliminar un producto determinado, en el cual es necesario enviar el userType por el body el cual es Vendedor, el producto id en el end-point y el token en los headers ejemplo:\n\n[http://localhost:8000/Vendedor/EliminarProducto/idProducto](http://localhost:8000/Vendedor/EliminarProducto/idProducto)\n\nSe quiere eliminar el producto con el id 5:\n\n[http://localhost:8000/Vendedor/EliminarProducto/5](http://localhost:8000/Vendedor/EliminarProducto/5)\n\nObjeto Body:\n\n{\n\n\"userType\":\"Vendedor\"\n\n}\n\nRespuesta:\n\n{\n    \"msg\": \"Producto Eliminado\",\n    \"Producto\": {\n        \"IdProducto\": 5,\n        \"IdVendedor\": 4,\n        \"Nombre\": \"Caucho\",\n        \"Cantidad\": 30,\n        \"Descripcion\": \"Caucho delantero de bici\",\n        \"Estado\": true,\n        \"createdAt\": \"2022-03-14T01:33:51.000Z\",\n        \"updatedAt\": \"2022-03-14T01:33:51.000Z\"\n    }\n}"
+									},
+									"response": []
+								},
+								{
+									"name": "Actualizar Pedido",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "token",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzAzMTk1NiwiZXhwIjoxNjQ3MDM1NTU2fQ.BN5P5kM9-5KIWX0a4xvsxj5Ut1jvw0WrKgfzEE9c85o",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\n\"userType\":\"Vendedor\",\n\"Estado\":\"enviado\",\n\"PedidoId\":5\n\n\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8000/Vendedor/CambiarEstadoOrden/4",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"Vendedor",
+												"CambiarEstadoOrden",
+												"4"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"description": "En esta carpeta estan todos los end-point del cual el usuario mercado puede llegar a hacer uso."
+						},
+						{
+							"name": "Actualizar Vendedor",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIxNTQ2NCwiZXhwIjoxNjQ3MjE5MDY0fQ.R6dJAoE3fHG_QHCQmNgcV9hDXd84cyEfrn7PakHdvkk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n\"Nombre\":\"Arispe\",\r\n\"userType\":\"Administrador_Mercado\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/AdministradorMercado/actualizarVendedor/7",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"AdministradorMercado",
+										"actualizarVendedor",
+										"7"
+									]
+								},
+								"description": "Este end-point permite actualizar la informacion de un usuario vendedor tales como Username, Nombre, DireccionAlmacen y la descripcion. Basta con enviar la informacion que se quiere actualizar en el objeto body, adicional es estrictamente necesario mandar el id de vendedor el token por los headers y el userType el cual puede ser \"Administrador_Mercado\" o \"Vendedor\" en el body en el end-point por ejemplo:  \n\n[http://localhost:8000/AdministradorMercado/actualizarVendedor/userid](http://localhost:8000/AdministradorMercado/actualizarVendedor/userid)\n\nSi quiero actualizar el nombre del usuario vendedor que tiene el user id 7\n\n[http://localhost:8000/AdministradorMercado/actualizarVendedor/7](http://localhost:8000/AdministradorMercado/actualizarVendedor/7)\n\nObjeto Body:  \n{\n\n\"Nombre\":\"Arispe\",  \n\"userType\":\"Administrador_Mercado\"\n\n}\n\nLa respuesta seria la siguiente:\n\n{  \n\"msg\": \"Usuario Actualizado Exitosamente\",  \n\"usuarioActualizado\": {  \n\"IdVendedor\": 7,  \n\"Nombre\": \"Arispe\",  \n\"Username\": \"garispe12345\",  \n\"Descripcion\": \"Vendedor de zapatos\",  \n\"Estado\": true,  \n\"DireccionAlmacen\": \"Carrera 15-12\",  \n\"createdAt\": \"2022-03-14T00:03:04.000Z\",  \n\"updatedAt\": \"2022-03-14T00:16:14.891Z\"  \n}  \n}"
+							},
+							"response": []
+						},
+						{
+							"name": "Obtener Vendedor",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIxOTcwMywiZXhwIjoxNjQ3MjIzMzAzfQ.DyeDLmZ-DW_ozRRSFH2zExNJfFCREto2vWp_2kNEWsw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"userType\":\"Vendedor\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/AdministradorMercado/verVendedor/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"AdministradorMercado",
+										"verVendedor",
+										"4"
+									]
+								},
+								"description": "End-Point que sirve para obtener toda la informacion de un usuario vendedor determinado\nen el cual es necesario pasar el id de vededor buscado por el end point el userType por el body el cual es \"Vendedor\" y el token por los headers ejemplo:\n\nhttp://localhost:8000/AdministradorMercado/verVendedor/VendedorId\n\nSe quiere obtener informacion respecto al usuario vendedor 4:\n\nhttp://localhost:8000/AdministradorMercado/verVendedor/4\n\nObjeto Body:\n\n{\n\"userType\":\"Vendedor\"\n\n}\n\nRespuesta:\n{\n    \"Vendedor\": {\n        \"IdVendedor\": 4,\n        \"Nombre\": \"TEST123\",\n        \"Username\": \"FF2\",\n        \"Descripcion\": \"sdadasd\",\n        \"Estado\": true,\n        \"DireccionAlmacen\": \"\\\"calle carvajal 87-21\\\"\",\n        \"createdAt\": \"2022-03-09T04:11:34.000Z\",\n        \"updatedAt\": \"2022-03-09T04:30:41.000Z\"\n    }\n}"
+							},
+							"response": []
+						},
+						{
+							"name": "Obtener Ordenes",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIxOTcwMywiZXhwIjoxNjQ3MjIzMzAzfQ.DyeDLmZ-DW_ozRRSFH2zExNJfFCREto2vWp_2kNEWsw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n\"userType\":\"Vendedor\"\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/Vendedor/OrdenesCompras/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"Vendedor",
+										"OrdenesCompras",
+										"4"
+									]
+								},
+								"description": "End-Point que sirve para obtener todos los pedidos de un vendedor determinado en el cual es necesario enviar el userType en el objeto body que es \"Vendedor\", el token en los headers el idVendedor en el end-point y el token en los headers ejemplo:\n\nhttp://localhost:8000/Vendedor/OrdenesCompras/idVendedor\n\nSe quiere ver todos los pedidos del usuario vendedor con el id 4:\n\nhttp://localhost:8000/Vendedor/OrdenesCompras/4\n\nObjeto Body:\n\n{\n\n\"userType\":\"Vendedor\"\n\n}\n\nRespuesta:\n\n{\n \"CantidadPedidos\": 2,\n    \"misPedidos\": [\n        {\n            \"IdPedido\": 5,\n            \"Sku\": 1,\n            \"VendedorId\": 4,\n            \"UsuarioMercadoId\": 1,\n            \"Estado\": \"enviado\",\n            \"Cantidad\": 25,\n            \"createdAt\": \"2022-03-11T20:47:19.000Z\",\n            \"updatedAt\": \"2022-03-11T21:22:46.000Z\",\n            \"mercadoUsuario\": {\n                \"Correo\": \"garispe24@gmail.com\",\n                \"Direccion_De_Envio\": \"calle 80-81\"\n            }\n        },\n        {\n            \"IdPedido\": 6,\n            \"Sku\": 1,\n            \"VendedorId\": 4,\n            \"UsuarioMercadoId\": 1,\n            \"Estado\": \"Cancelado Por Usuario De Mercado\",\n            \"Cantidad\": 5,\n            \"createdAt\": \"2022-03-11T22:22:09.000Z\",\n            \"updatedAt\": \"2022-03-11T22:36:05.000Z\",\n            \"mercadoUsuario\": {\n                \"Correo\": \"garispe24@gmail.com\",\n                \"Direccion_De_Envio\": \"calle 80-81\"\n            }\n        }\n }"
+							},
+							"response": []
+						},
+						{
+							"name": "Cambiar Estado De La Orden",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIxOTcwMywiZXhwIjoxNjQ3MjIzMzAzfQ.DyeDLmZ-DW_ozRRSFH2zExNJfFCREto2vWp_2kNEWsw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n\"userType\":\"Vendedor\",\r\n\"Estado\":\"confirmado\",\r\n\"PedidoId\":37\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/Vendedor/CambiarEstadoOrden/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"Vendedor",
+										"CambiarEstadoOrden",
+										"4"
+									]
+								},
+								"description": "End-Point que sirve para cambiar el estado de un pedido determinado en el cual es necesario enviar el vendedorId en el endpoint, el userType el cual es \"Vendedor\" el Estado los cuales son confirmado y enviado ademas del PedidoId con token incluido en los headers ejemplo:\n\n[http://localhost:8000/Vendedor/CambiarEstadoOrden/idVendedor](http://localhost:8000/Vendedor/CambiarEstadoOrden/idVendedor)\n\nSe quiere cambiar el estado del pedido con el id 10 a confirmado el cual pertenece al usuario vendedor con el id 4.\n\n[http://localhost:8000/Vendedor/CambiarEstadoOrden/4](http://localhost:8000/Vendedor/CambiarEstadoOrden/4)\n\nObjeto Body:\n\n{\n\n\"userType\":\"Vendedor\",  \n\"Estado\":\"confirmado\",  \n\"PedidoId\":10\n\n}\n\nRespuesta:\n\n\"Estado del producto cambiado a confirmado\""
+							},
+							"response": []
+						}
+					],
+					"description": "En esta carpeta estan todos los end-point del cual el usuario vendedor puede llegar a hacer uso."
+				},
+				{
+					"name": "UsuarioMercado",
+					"item": [
+						{
+							"name": "Registrar Usuario Mercado",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIyMzQ3MywiZXhwIjoxNjQ3MjI3MDczfQ.oLkdk4VdBd6hEd3Wf5a2rjuxdJJtwjyF7yqkny-lc8g",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n\"userType\":\"UsuarioInternet\",\n\"Correo\":\"celeste31@gmail.com\",\n\"Direccion_De_Envio\":\"calle 12-12\",\n\"Nombre\":\"Celeste\"\n\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/UsuarioMercado/Registrarse",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"UsuarioMercado",
+										"Registrarse"
+									]
+								},
+								"description": "End-Point para registrar un usuario mercado \"Usuario de internet\" en el cual es agregar en el objeto body el userType que es \n \"UsuarioInternet\" Correo, Direccion_De_Envio,\nNombre. Ademas del token en los headers por ejemplo:\n\nSe quiere crear un usuario mercado nuevo:\n\nObjeto Body:\n\n{\n\n\"userType\":\"UsuarioInternet\",\n\"Correo\":\"celeste30@gmail.com\",\n\"Direccion_De_Envio\":\"calle 12-12\",\n\"Nombre\":\"Celeste\"\n\n\n}\n\nRespuesta:\n\n{\n    \"msg\": \"Usuario Creado Exitosamente\",\n    \"newUsuarioMercado\": {\n        \"IdUsuarioMercado\": 3,\n        \"Correo\": \"celeste30@gmail.com\",\n        \"Direccion_De_Envio\": \"calle 12-12\",\n        \"Nombre\": \"Celeste\",\n        \"updatedAt\": \"2022-03-14T02:08:36.748Z\",\n        \"createdAt\": \"2022-03-14T02:08:36.748Z\"\n    }\n}"
+							},
+							"response": []
+						},
+						{
+							"name": "Comprar",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIyMzQ3MywiZXhwIjoxNjQ3MjI3MDczfQ.oLkdk4VdBd6hEd3Wf5a2rjuxdJJtwjyF7yqkny-lc8g",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n\"userType\":\"UsuarioInternet\",\n\"UsuarioMercadoId\":1,\n\"ProductId\":1,\n\"Cantidad\":2\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/UsuarioMercado/ComprarProductos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"UsuarioMercado",
+										"ComprarProductos"
+									]
+								},
+								"description": "End-Point para hacer la compra de un producto determinado en el cual es necesario pasar el userType que es UsuarioInternet, el UsuarioMercadoId, ProductId, Cantidad. Ademas del token en los headers por ejemplo:\n\nEl usuario de mercado con el id 4 quiere comprar la cantidad de 2 elementos de roscas:\n\nObjeto Body:\n\n{  \n\"userType\":\"UsuarioInternet\",  \n\"UsuarioMercadoId\":1,  \n\"ProductId\":1,  \n\"Cantidad\":2  \n}\n\nRespuesta:\n\n{\n    \"msg\": \"Compra Realizada\",\n    \"Pedido\": {\n        \"IdPedido\": 41,\n        \"UsuarioMercadoId\": 1,\n        \"Cantidad\": 2,\n        \"Sku\": 1,\n        \"VendedorId\": 4,\n        \"updatedAt\": \"2022-03-14T02:15:07.004Z\",\n        \"createdAt\": \"2022-03-14T02:15:07.004Z\",\n        \"NombreProducto\": \"Roscas\"\n    }\n}"
+							},
+							"response": []
+						},
+						{
+							"name": "Cancelar Compra",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIyMzQ3MywiZXhwIjoxNjQ3MjI3MDczfQ.oLkdk4VdBd6hEd3Wf5a2rjuxdJJtwjyF7yqkny-lc8g",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n\"userType\":\"UsuarioInternet\",\n\"UsuarioMercadoId\":1,\n\"PedidoId\":41\n\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/UsuarioMercado/CancelarCompra",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"UsuarioMercado",
+										"CancelarCompra"
+									]
+								},
+								"description": "End-Point para cancelar un pedido determinado, en el cual es necesario enviar por el objeto body el userType que es \"UsuarioInternet, el UsuarioMercadoId y el id del pedido por ejemplo:\n\nEl usuario de mercado con el id 1 quiere cancelar la compra que hizo que tiene el pedido id 41:\n\nObjeto Body:\n\n{\n\n\"userType\":\"UsuarioInternet\",  \n\"UsuarioMercadoId\":1,  \n\"PedidoId\":41\n\n}\n\nRespuesta:\n\n{\n    \"msg\": \"Pedido Cancelado\",\n    \"PedidoEncontrado\": {\n        \"IdPedido\": 41,\n        \"Sku\": 1,\n        \"VendedorId\": 4,\n        \"UsuarioMercadoId\": 1,\n        \"Estado\": \"Cancelado Por Usuario De Mercado\",\n        \"Cantidad\": 2,\n        \"createdAt\": \"2022-03-14T02:15:07.000Z\",\n        \"updatedAt\": \"2022-03-14T02:23:52.445Z\"\n    }\n}"
+							},
+							"response": []
+						},
+						{
+							"name": "Ver Estado Pedido",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIyMzQ3MywiZXhwIjoxNjQ3MjI3MDczfQ.oLkdk4VdBd6hEd3Wf5a2rjuxdJJtwjyF7yqkny-lc8g",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n\"userType\":\"UsuarioInternet\",\r\n\"UsuarioMercadoId\":1,\r\n\"PedidoId\":5\r\n\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/UsuarioMercado/EstadoPedido",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"UsuarioMercado",
+										"EstadoPedido"
+									]
+								},
+								"description": "End-Point para ver el estado de un pedido determinado, en el cual es necesario pasar por el objeto body el userType que es UsuarioInternet, el UsuarioMercadoId, y el PedidoId y el token por los headers ejemplo:\n\nEl usuario de mercado \"Usuario de internet\" quiere ver el estado de su pedido con el id 5:\n\nObjeto Body:\n\n{\n\n\"userType\":\"UsuarioInternet\",\n\"UsuarioMercadoId\":1,\n\"PedidoId\":5\n\n\n}\n\nRespuesta:\n\n{\n    \"Pedido\": {\n        \"IdPedido\": 5,\n        \"Sku\": 1,\n        \"Estado\": \"enviado\",\n        \"Cantidad\": 25,\n        \"createdAt\": \"2022-03-11T20:47:19.000Z\"\n    }\n}"
+							},
+							"response": []
+						}
+					],
+					"description": "En esta carpeta estan todos los end-point del cual el usuario mercado puede llegar a hacer uso."
+				}
+			]
+		},
+		{
+			"name": "delivery microservice",
+			"item": [
+				{
+					"name": "Entregas",
+					"item": [
+						{
+							"name": "Crear Entrega",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n\"foreing_order_id\":9,\n\"sku_Producto\":1,\n\"nombre_Producto\":\"Papas\",\n\"cantidad_Producto\":10,\n\"direccion_origen\":\"calle carvajal 87-21\",\n\"direccion_destino\":\"calle 80-81\",\n\"nombre_Cliente\":\"Gabriel Arispe\"\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8001/Entregas/crearEntrega",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"Entregas",
+										"crearEntrega"
+									]
+								},
+								"description": "End-Point que sirve para crear una entrega en el cual es necesario enviar por el objeto body foreing_order_id, sku_Producto, nombre_Producto,cantidad_Producto,direccion_origen,direccion_destino,nombre_Cliente ademas de el token por el objeto headers."
+							},
+							"response": []
+						},
+						{
+							"name": "Seguimiento Entrega",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIyNTQ2NCwiZXhwIjoxNjQ3MjI5MDY0fQ.fmBSxU_G20hebZ2oTh6OVwHoSiYDcRpQddHV9KikuPU",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n     \"foreing_order_id\" : 28,\n     \"tracking_number\" :  14\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8001/Entregas/seguimientoEntrega",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"Entregas",
+										"seguimientoEntrega"
+									]
+								},
+								"description": "End-Point para obtener el seguimiento de una entrega determinada, en el cual es necesario enviar por el objeto body el foreing_order_id y el tracking_number ademas del token por los headers por ejemplo:\n\nSe quiere ver el seguimiento de la entrega con el foreing_order_id 28 y el tracking_number 14:\n\nObjeto Body:\n\n{\n\n\"foreing_order_id\" : 28,  \n\"tracking_number\" : 14\n\n}\n\nRespuesta:\n\n{\n    \"tracking_number\": 14,\n    \"status\": \"enviado\",\n    \"tracking\": [\n        {\n            \"status\": \"ENTREGADO\",\n            \"date\": \"2022-03-12T16:50:19.000Z\"\n        }\n    ]\n}"
+							},
+							"response": []
+						},
+						{
+							"name": "Obtener Entrega",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIyNTQ2NCwiZXhwIjoxNjQ3MjI5MDY0fQ.fmBSxU_G20hebZ2oTh6OVwHoSiYDcRpQddHV9KikuPU",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8001/Entregas/verEntrega/14",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"Entregas",
+										"verEntrega",
+										"14"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "End-Point que sirve para ver una entrega determinada en el cual solo es necesario pasar el id de la entrega \"tracking_number\" y el token por los headers ejemplo:\n\nhttp://localhost:8001/Entregas/verEntrega/tracking_number\n\n  \nSe quiere ver la entrega con el tracking_number 14:\n\nhttp://localhost:8001/Entregas/verEntrega/14\n\nRespuesta:\n\n{\n    \"Entrega\": {\n        \"tracking_number\": 14,\n        \"foreing_order_id\": 28,\n        \"sku_Producto\": 4,\n        \"nombre_Producto\": \"Salsa de tomate\",\n        \"cantidad_Producto\": 1,\n        \"direccion_origen\": \"\\\"calle carvajal 87-21\\\"\",\n        \"direccion_destino\": \"calle 80-81\",\n        \"nombre_Cliente\": \"Gabriel Arispe\",\n        \"estado\": \"ENTREGADO\",\n        \"createdAt\": \"2022-03-12T16:50:19.000Z\",\n        \"updatedAt\": \"2022-03-13T18:54:12.000Z\"\n    }\n}"
+							},
+							"response": []
+						},
+						{
+							"name": "Actualizar Entrega",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIyNTQ2NCwiZXhwIjoxNjQ3MjI5MDY0fQ.fmBSxU_G20hebZ2oTh6OVwHoSiYDcRpQddHV9KikuPU",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n\"direccion_destino\":\"calle-50-55\"\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8001/Entregas/actualizarEntrega/22",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"Entregas",
+										"actualizarEntrega",
+										"22"
+									]
+								},
+								"description": "End-Point el cual sirve para actulizar informacion determinada de una entrega los campos que se pueden actualizar son:\n\n\"nombre_Producto\",\"sku_Producto\",\"direccion_origen\",\"direccion_destino\" los cuales se envian por el objeto body ademas es necesario enviar el tracking_number por el end-point y el token por los headers por ejemplo:\n\n[http://localhost:8001/Entregas/actualizarEntrega/tracking_number](http://localhost:8001/Entregas/actualizarEntrega/tracking_number)\n\nSe quiere cambiar la direccion de destino de la entrega con el tracking_number 22 a calle-50-55:\n\nObjeto Body:\n\n{\n\n\"direccion_destino\":\"calle-50-55\"\n\n}\n\nRespuesta:\n\n{\n    \"msg\": \"Entrega Actualizada\",\n    \"updateEntrega\": {\n        \"tracking_number\": 22,\n        \"foreing_order_id\": 37,\n        \"sku_Producto\": 4,\n        \"nombre_Producto\": \"Salsa de tomate\",\n        \"cantidad_Producto\": 1,\n        \"direccion_origen\": \"\\\"calle carvajal 87-21\\\"\",\n        \"direccion_destino\": \"calle-50-55\",\n        \"nombre_Cliente\": \"Gabriel Arispe\",\n        \"estado\": \"EN_ORIGIN\",\n        \"createdAt\": \"2022-03-12T17:01:18.000Z\",\n        \"updatedAt\": \"2022-03-14T02:48:33.071Z\"\n    }\n}"
+							},
+							"response": []
+						},
+						{
+							"name": "Eliminar Entrega",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIyNTQ2NCwiZXhwIjoxNjQ3MjI5MDY0fQ.fmBSxU_G20hebZ2oTh6OVwHoSiYDcRpQddHV9KikuPU",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8001/Entregas/EliminarEntrega/22",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"Entregas",
+										"EliminarEntrega",
+										"22"
+									]
+								},
+								"description": "End-Point que se utiliza para eliminar una entrega determinada en el cual es necesario enviar el tracking_number en el end-point ademas de los tokens en los headers por ejemplo:\n\n[http://localhost:8001/Entregas/EliminarEntrega/tracking_number](http://localhost:8001/Entregas/EliminarEntrega/tracking_number)\n\nSe quiere eliminar la entrega con el tracking_number 22:\n\n[http://localhost:8001/Entregas/EliminarEntrega/22](http://localhost:8001/Entregas/EliminarEntrega/22)\n\nRespuesta:\n\n{    \"msg\": \"Entrega Eliminada\"}"
+							},
+							"response": []
+						},
+						{
+							"name": "Cambiar Estado Entrega",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidGVzdCIsImlhdCI6MTY0NzIyNjUwMCwiZXhwIjoxNjQ3MjMwMTAwfQ.P-71LMbvv3mXTFh26A5kJQ7wPJRaWLft60zfme8qCkA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n\"estado\":\"EN_ORIGIN\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8001/Entregas/CambiarEstadoEntrega/23",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"Entregas",
+										"CambiarEstadoEntrega",
+										"23"
+									]
+								},
+								"description": "End-Point que se utliza para cambiar el estado de una entrega determinada en el cual es necesario mandar por el objeto body el estado al cual se quiere cambiar, el tracking_number por el end-point y el token por los headers ejemplo:\n\n[http://localhost:8001/Entregas/CambiarEstadoEntrega/tracking_number](http://localhost:8001/Entregas/CambiarEstadoEntrega/tracking_number)\n\nSe quiere cambiar el estado de la entrega con el tracking_number 23 a EN_ORIGIN:\n\n[http://localhost:8001/Entregas/CambiarEstadoEntrega/23](http://localhost:8001/Entregas/CambiarEstadoEntrega/23)\n\nObjeto Body:\n\n{\n\n\"estado\":\"EN_ORIGIN\"\n\n}\n\nRespuesta:\n\n{\n    \"msg\": \"Estado De la entrega cambiado a EN_ORIGIN\"\n}"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Obtener Token",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/Token/GetToken",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"Token",
+						"GetToken"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				},
+				"description": "End-Point para obtener el token, cabe destacar que el end-point tiene dos horas de vida, ademas de funcionar absolutamente con todos los end-points de la app.\n\nSolo es necesario hacer la peticion get a :\n\nhttp://localhost:8000/Token/GetToken  \n\nNo le coloque mas opciones de seguridad a la app no por que no supiera como si no por el tiempo muchas gracias por la prueba tecnica estuvo genial y espero que mi resultado les guste feliz dia.\n\nCualquier duda escribirme a mi correo:\n\ngabrielarispe24@gmail.com"
+			},
+			"response": []
+		}
+	]
+}
