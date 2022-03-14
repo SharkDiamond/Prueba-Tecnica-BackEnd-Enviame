@@ -23,7 +23,7 @@ const existUsername=async(Username)=>{
 
 
 }
-//FUNCION PARA HACER VALIDACION DE LOS CAMPOS DESDE LOS CONTROLADORES VERIFICAR ESTO BIEN 11 PM CAMBIARLO CON UN SWITCH
+//FUNCION PARA HACER VALIDACION DE LOS CAMPOS DESDE LOS CONTROLADORES VERIFICAR ESTO
 const valideCamposInController=async(body,id)=>{
 
     //SACANDO EN UN ARREGLO LAS LLAVES DEL OBJETO BODY
@@ -36,19 +36,25 @@ const valideCamposInController=async(body,id)=>{
     //VALIDANDO DIRECCION ALMACEN
      if (keysBody.includes("DireccionAlmacen") && body.DireccionAlmacen.length>0) return 'La descripcion del usuario debe tener minimo 12 letras y maximo 50 letras';
     
-    //BUSCANDO EL USUARIO
-    const VendedorUsername= await Vendedor.findOne({
+    if (keysBody.includes('Username')) {
+        
+            //BUSCANDO EL USUARIO
+            const VendedorUsername= await Vendedor.findOne({
 
-        where:{
+                where:{
 
-            Username:body.Username
+                    Username:body.Username
 
-        }
+                }
+
+            });
+
+             //VERIFICANDO QUE EL NOMBRE DE USUARIO POR EL QUE SE VA A CAMBIAR NO LO TENGA OTRO USUARIO
+            if (VendedorUsername.IdVendedor!==id) return `Ya existe otro usuario vendedor con el username ${body.Username}`;
 
 
-    });
-    //VERIFICANDO QUE EL NOMBRE DE USUARIO POR EL QUE SE VA A CAMBIAR NO LO TENGA OTRO USUARIO
-    if (VendedorUsername.IdVendedor!==id) return `Ya existe otro usuario vendedor con el username ${body.Username}`;
+    }
+
     //RETORNANDO TRUE SI PARA TODAS LAS VALIDACIONES
     return true;
 
@@ -59,7 +65,7 @@ const valideCamposInControllerVendedores=async(body)=>{
     
     //SACANDO EN UN ARREGLO LAS LLAVES DEL OBJETO BODY
     const keysBody=Object.keys(body);
-    //VALIDANDO EL USERNAME
+    //VALIDANDO EL NOMBRE
     if (keysBody.includes('Nombre') && body.Nombre.length==0) return 'El nombre del producto no puede estar vacio';
     //VALIDANDO LA DESCRIPCION
     if ( keysBody.includes('Descripcion') && (body.Descripcion.length<12 || body.Descripcion.length>60) ) return 'La descripcion del producto debe tener minimo 12 letras y maximo 60 letras';

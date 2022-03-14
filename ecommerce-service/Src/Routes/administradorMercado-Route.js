@@ -10,7 +10,7 @@ const {existVendedorForId,validarCamposPermitidos,validateUserType} = require('.
 //CREANDO EL ROUTE
 const route=Router();
 //CREAR VENDEDOR
-route.post('/crearVendedor',[validarToken,validateUserType('Administrador_Mercado'),validarCamposPermitidos('Nombre','Username','Descripcion','DireccionAlmacen'),check('Nombre','El nombre no puede estar vacio').not().isEmpty(),
+route.post('/crearVendedor',[validarToken,validateUserType('Administrador_Mercado'),validarCamposPermitidos('Nombre','Username','Descripcion','DireccionAlmacen','userType'),check('Nombre','El nombre no puede estar vacio').not().isEmpty(),
                              check('Descripcion','La descripcion del usuario debe tener minimo 12 letras y maximo 50 letras').isLength({min:12,max:50}),
                              check('Username','El nombre de usuario no puede venir vacio').not().isEmpty(),
                              check('Username','El nombre de usuario debe tener minimo 8 letras y maximo 15 letras').isLength({min:8,max:15}),

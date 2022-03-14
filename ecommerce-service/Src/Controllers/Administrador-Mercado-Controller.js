@@ -15,7 +15,7 @@ const createVendedores=async(req,res)=>{
        //GUARDANDO EL NUEVO VENDEDOR
        await newVendedor.save();
        //INDICANDO QUE SE CREO EL VENDEDOR DE MANERA EXITOSA
-       res.status(201).json({msg:"Usuario Vendedor Creado!",create}).end();
+       res.status(201).json({msg:"Usuario Vendedor Creado!",newVendedor}).end();
 
     } catch (error) {
 

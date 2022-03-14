@@ -23,7 +23,7 @@ route.get('/listProducto/:id',[validarToken,validateUserType('Vendedor'),existVe
 //ELIMINAR UN PRODUCTO POR SU ID
 route.delete('/EliminarProducto/:id',[validarToken,validateUserType('Vendedor'),productExistForId],deleteProducto);
 //ACTUALIZAR INFORMACION DE UN PRODUCTO
-route.put('/actualizarProducto/:id',[validarToken,validarCamposPermitidos('Nombre','Cantidad','Descripcion','userType'),productExistForId],updateProducto);
+route.put('/actualizarProducto/:id',[validarToken,validateUserType('Vendedor'),validarCamposPermitidos('Nombre','Cantidad','Descripcion','userType'),productExistForId],updateProducto);
 //OBTENER ORDENES DE COMPRA
 route.get('/OrdenesCompras/:id',[validarToken,validarCamposPermitidos('userType'),validateUserType('Vendedor'),existVendedorForId],OrdenesCompras);
 //ACTUALIZAR ESTADO PEDIDO

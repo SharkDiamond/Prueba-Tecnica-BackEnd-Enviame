@@ -194,7 +194,6 @@ const cambiarOrden=async(req,res)=>{
         res.json(`Estado del producto cambiado a ${Estado}`).end();
         
     } catch (error) {
-
          //EN DADO CASO OCURRA UN ERROR RESPONDIENDOLO
          res.status(500).json({'Problems':error.message}).end();
     
