@@ -181,7 +181,7 @@ const cambiarOrden=async(req,res)=>{
         //NOTIFICANDO A LA API DE ENTREGA PARA QUE CREE LA ENTREGA SI ESTADO ES ENVIADO
         if (Estado=='confirmado' || Estado=='enviado') {
 
-            await axios.put(`${process.env.DELIVERY_DIRECTION}/Entregas/CambiarEstadoEntrega/${findEntrega.dataValues.tracking_number}`,{'estado':estadosEntrega[Estado]},
+            await axios.put(`http://${process.env.DELIVERY_DIRECTION}:8001/Entregas/CambiarEstadoEntrega/${findEntrega.dataValues.tracking_number}`,{'estado':estadosEntrega[Estado]},
             {
                 headers: {
                   token: req.headers.token

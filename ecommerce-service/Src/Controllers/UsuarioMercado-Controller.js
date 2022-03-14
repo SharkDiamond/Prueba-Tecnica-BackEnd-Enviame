@@ -44,7 +44,7 @@ const createCompra=async(req,res)=>{
         //AGREGANDO AL OBJETO  newPedido.dataValues.NombreProducto el nombre del producto
         newPedido.dataValues.NombreProducto=ProductoEncontrado.Nombre;
         //CREANDO LA ENTREGA la direccion de entrega debe de estar en una variable de entorno
-       const createEntrega= await axios.post(`${process.env.DELIVERY_DIRECTION}/Entregas/crearEntrega`,{
+       const createEntrega= await axios.post(`http://${process.env.DELIVERY_DIRECTION}:8001/Entregas/crearEntrega`,{
             "foreing_order_id":IdPedido,
              "sku_Producto":ProductId,
              "nombre_Producto":ProductoEncontrado.Nombre,

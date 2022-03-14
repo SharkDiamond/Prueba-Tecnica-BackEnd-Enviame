@@ -1,5 +1,5 @@
 FROM mysql:latest
 
-ADD script.sql /docker-entrypoint-initdb.d/script.sql
+ADD database.sql /docker-entrypoint-initdb.d/database.sql
 
 RUN ls /var/lib/mysql

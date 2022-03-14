@@ -17,6 +17,7 @@ services:
       - SQL_ALCHEMY_HOST=${MYSQL_NAME}
       - SQL_ALCHEMY_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
+      - DELIVERYADDRESS=${DELIVERY_SERVICE_NAME}
     volumes:
       - ${ECOMMERCE_SERVICE_PATH}/Src:/app/src
       
@@ -63,7 +64,7 @@ services:
       - SQL_ALCHEMY_HOST=${MYSQL_NAME}
       - SQL_ALCHEMY_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
-
+      - ECOMMERCEADDRESS=${ECOMMERCE_SERVICE_NAME}
     volumes:
       - ${DELIVERY_SERVICE_PATH}/Src:/app/src
       - ${DELIVERY_SERVICE_PATH}/tests:/app/tests
