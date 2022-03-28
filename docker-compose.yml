@@ -3,30 +3,7 @@ version: "3"
 
 services:
   
-  #ecommerce-service block
-  ecommerce-app:
   
-    build: ${ECOMMERCE_SERVICE_PATH}/.
-  
-    container_name: ${ECOMMERCE_SERVICE_NAME}
-  
-    env_file:
-      - .env
-    
-    environment:
-      - SQL_ALCHEMY_HOST=${MYSQL_NAME}
-      - SQL_ALCHEMY_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - DELIVERYADDRESS=${DELIVERY_SERVICE_NAME}
-    volumes:
-      - ${ECOMMERCE_SERVICE_PATH}/Src:/app/src
-      
-    ports:
-      - ${ECOMMERCE_APP_PORT}:8000
-    
-    depends_on:
-      - database-mysql
-  #DATABASE BLOCK
   database-mysql:
   
     build: ${DATABASE_SERVICE_PATH}/.
@@ -50,12 +27,13 @@ services:
   
     command: 
       - --default-authentication-plugin=mysql_native_password
-  #delivery-service block
-  delivery-app:
+
+  #ecommerce-service block
+  ecommerce-app:
   
-    build: ${DELIVERY_SERVICE_PATH}/.
-  
-    container_name: ${DELIVERY_SERVICE_NAME}
+    build: ${ECOMMERCE_SERVICE_PATH}/.
+    
+    container_name: ${ECOMMERCE_SERVICE_NAME}
   
     env_file:
       - .env
@@ -64,11 +42,41 @@ services:
       - SQL_ALCHEMY_HOST=${MYSQL_NAME}
       - SQL_ALCHEMY_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
+      - DELIVERYADDRESS=${DELIVERY_SERVICE_NAME}
+
+    restart: on-failure
+
+    volumes:
+      - ${ECOMMERCE_SERVICE_PATH}/Src:/app/src
+
+
+    ports:
+      - ${ECOMMERCE_APP_PORT}:8000
+    
+    depends_on:
+      - database-mysql
+  #DATABASE BLOCK
+ #delivery-service block
+  delivery-app:
+  
+    build: ${DELIVERY_SERVICE_PATH}/.
+    
+    container_name: ${DELIVERY_SERVICE_NAME}
+  
+    env_file:
+      - .env
+
+    restart: on-failure
+    environment:
+      - SQL_ALCHEMY_HOST=${MYSQL_NAME}
+      - SQL_ALCHEMY_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
       - ECOMMERCEADDRESS=${ECOMMERCE_SERVICE_NAME}
     volumes:
       - ${DELIVERY_SERVICE_PATH}/Src:/app/src
       - ${DELIVERY_SERVICE_PATH}/tests:/app/tests
-      
+    
+
     ports:
       - ${DELIVERY_APP_PORT}:8001
     
